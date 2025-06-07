@@ -1,0 +1,18 @@
+/* src/main/resources/styles/game_style.css */
+
+.debug-button {
+    -fx-background-color: rgba(0, 0, 255, 0.5); /* Azul semi-transparente */
+    -fx-border-color: yellow;
+    -fx-border-width: 3px;
+    -fx-padding: 0;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.transparent-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-text-fill: transparent;
+    -fx-cursor: hand;
+}
