@@ -11,7 +11,7 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
 
 - **Java ?+**
 - **JavaFX** para a construção da interface gráfica
-- **FXML** (quando aplicável)
+- **FXML**
 - Sistema de gerenciamento de recursos (áudio, imagem, eventos)
 - Assets personalizados desenvolvidos para o projeto com ajuda de inteligência artificial
 - Música criada pelo Suno, inspirada na narrativa do jogo
