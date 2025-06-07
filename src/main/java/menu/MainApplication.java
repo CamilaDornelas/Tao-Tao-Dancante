@@ -23,7 +23,7 @@ public class MainApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1236, 804); //
 
         //icone do jar
-        Image icon = new Image(getClass().getResourceAsStream("/icones/icone2.png"));
+        Image icon = new Image(getClass().getResourceAsStream("/assets/icones/icone2.png"));
         mainStage.getIcons().add(icon);
 
         mainStage.setTitle("Tão Tão Dançante"); //título da janela

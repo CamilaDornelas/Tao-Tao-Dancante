@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="transicao1.Transicao1Controller"
-            stylesheets="@../styles/transicao1_style.css"
+            stylesheets="@../assets/styles/transicao1_style.css"
             prefHeight="804.0" prefWidth="1236.0">
 
 
     <children>
         <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
             <image>
-                <Image url="@../imagens/transicao.png" />
+                <Image url="@../assets/imagens/transicao.png" />
             </image>
         </ImageView>
 
