@@ -1,22 +1,37 @@
-package transicao1; // Pacote do novo controller
+package transicao1;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+import java.io.IOException;
+
 
 public class Transicao1Controller {
 
     @FXML
-    private Button danceButton; // O botão "CLIQUE PARA DANÇAR" do FXML
+    private Button menuVoltarButton;
+    @FXML
+    private Button comecarButton;
 
     @FXML
-    private void initialize() {
-        System.out.println("Cena Transicao1 (transicao.png) carregada!");
+    private void handleMenuVoltarButtonClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
     @FXML
-    private void handleDanceButtonClick(ActionEvent event) {
-        System.out.println("CLIQUE PARA DANÇAR! AÇÃO DE DANÇA!");
-        // AQUI você colocaria a lógica para a próxima fase do jogo
+    private void handleComecarButtonClick(ActionEvent event) {
     }
 }

@@ -1,18 +1,9 @@
 /* src/main/resources/styles/game_style.css */
 
-.debug-button {
-    -fx-background-color: rgba(0, 0, 255, 0.5); /* Azul semi-transparente */
-    -fx-border-color: yellow;
-    -fx-border-width: 3px;
-    -fx-padding: 0;
-    -fx-text-fill: white;
-    -fx-cursor: hand;
-}
-
 .transparent-button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
-    -fx-text-fill: transparent;
+    -fx-background-color: transparent; /* Fundo transparente */
+    -fx-border-color: transparent;     /* Borda transparente */
+    -fx-padding: 0;                    /* Sem preenchimento interno */
+    -fx-text-fill: transparent;        /* Texto (se houver) também transparente */
     -fx-cursor: hand;
 }

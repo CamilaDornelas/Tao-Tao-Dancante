@@ -1,23 +1,10 @@
 /* resources/styles/menu_style.css */
 
-/* Novo estilo para botões invisíveis */
 .transparent-button {
     -fx-background-color: transparent; /* Fundo transparente */
     -fx-border-color: transparent;     /* Borda transparente */
     -fx-padding: 0;                    /* Sem preenchimento interno */
     -fx-text-fill: transparent;        /* Texto (se houver) também transparente */
     -fx-cursor: hand;
-}
-
-/* Opcional: Efeito hover para feedback visual (opcional) */
-.transparent-button:hover {
-    -fx-opacity: 0.2; /* Pequena opacidade para mostrar que é clicável */
-    /* Ou, se quiser, -fx-cursor: hand; */ /* Muda o cursor para uma mão */
-}
-
-.transparent-button:pressed {
-    -fx-scale-x: 0.98;
-    -fx-scale-y: 0.98;
-    -fx-opacity: 0.5; /* Um pouco mais visível ao pressionar */
 }
 

@@ -62,7 +62,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.1.0</version>
                 <configuration>
-                    <mainClass>menu.demo.MainApplication</mainClass>
+                    <mainClass>menu.MainApplication</mainClass>
                     <launcher>app</launcher>
                     <jlinkZipName>app</jlinkZipName>
                     <jlinkImageName>app</jlinkImageName>

@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="transicao1.Transicao1View"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="transicao1.Transicao1Controller"
+            stylesheets="@../styles/transicao1_style.css"
+            prefHeight="804.0" prefWidth="1236.0">
 
+
+    <children>
+        <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../imagens/transicao.png" />
+            </image>
+        </ImageView>
+
+        <Button fx:id="menuVoltarButton" layoutX="937.0" layoutY="526.0"
+                mnemonicParsing="false"
+                onAction="#handleMenuVoltarButtonClick"
+                prefHeight="107.0" prefWidth="107.0"
+                styleClass="transparent-button" />
+
+        <Button fx:id="comecarJogo" layoutX="1063.0" layoutY="526.0"
+                mnemonicParsing="false"
+                onAction="#handleComecarButtonClick"
+                prefHeight="107.0" prefWidth="107.0"
+                styleClass="transparent-button" />
+    </children>
 </AnchorPane>
