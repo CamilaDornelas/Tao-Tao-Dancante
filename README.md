@@ -1,4 +1,4 @@
-# Tão Tão Dancante - Jogo de ritmo
+# Tão Tão Dançante - Jogo de ritmo
 
 Este é um jogo rítmico inspirado no estilo de **Friday Night Funkin'**, desenvolvido em **Java** com interface gráfica usando **JavaFX**. O projeto combina elementos musicais com uma narrativa inspirada no filme "Shrek".
 
