@@ -36,3 +36,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Arquivos temporários e swap
+*.swp
+*.swo
+*~
