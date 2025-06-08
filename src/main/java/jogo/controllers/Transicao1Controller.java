@@ -1,4 +1,4 @@
-package transicao1;
+package jogo.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

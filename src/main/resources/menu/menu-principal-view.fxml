@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="804.0" prefWidth="1236.0" styleClass="root-pane" stylesheets="@../assets/styles/menu_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.MenuController"> <children>
+<AnchorPane prefHeight="804.0" prefWidth="1236.0" styleClass="root-pane" stylesheets="@../assets/styles/menu_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jogo.controllers.MenuController"> <children>
     <ImageView fitHeight="804" fitWidth="1236" preserveRatio="false">
         <image>
             <Image url="@../assets/imagens/principal.png" />

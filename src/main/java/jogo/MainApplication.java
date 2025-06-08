@@ -1,4 +1,4 @@
-package menu;
+package jogo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
