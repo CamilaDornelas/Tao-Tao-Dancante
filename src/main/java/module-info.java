@@ -2,12 +2,13 @@ module demo {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens menu to javafx.fxml; 
-    exports menu;                
+    opens jogo to javafx.fxml;
+    exports jogo;
 
   
-    opens transicao1 to javafx.fxml;   
-    exports transicao1;                
+    opens transicao1 to javafx.fxml;
+    exports jogo.controllers;
+    opens jogo.controllers to javafx.fxml;
 
 
 }
