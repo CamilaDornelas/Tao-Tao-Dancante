@@ -22,15 +22,15 @@ public class Fase1Controller {
     private void initialize() {
         // Cria o ogro que dança
         BardoDanca bardo = new BardoDanca(282, 415);
-        bardo.setLayoutX(820); // ajuste conforme o layout
-        bardo.setLayoutY(270);
+        bardo.setLayoutX(890); // ajuste conforme o layout
+        bardo.setLayoutY(335);
         rootPane.getChildren().add(bardo);
 
 
         // Cria o lorde
         Lorde lorde = new Lorde(210, 380);
-        lorde.setLayoutX(160);
-        lorde.setLayoutY(330);
+        lorde.setLayoutX(120);
+        lorde.setLayoutY(370);
         rootPane.getChildren().add(lorde);
 
 
