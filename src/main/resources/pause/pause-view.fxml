@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pausePane" prefHeight="804.0" prefWidth="1236.0"
+            stylesheets="@../assets/styles/transparente.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="jogo.controllers.PauseController">
+
+    <children>
+        <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../assets/imagens/pause.png" />
+            </image>
+        </ImageView>
+
+        <Button fx:id="VoltarAoJogoButton" layoutX="476.0" layoutY="267.0"
+                mnemonicParsing="false" onAction="#handleVoltarAoJogoButtonClick"
+                prefHeight="106.0" prefWidth="286.0" styleClass="transparent-button" />
+
+        <Button fx:id="menuVoltarButton" layoutX="476.0" layoutY="411.0"
+                mnemonicParsing="false" onAction="#handleMenuVoltarButtonClick"
+                prefHeight="115.0" prefWidth="286.0" styleClass="transparent-button" />
+
+      <Button fx:id="exitButton" layoutX="482.0" layoutY="561.0"
+              mnemonicParsing="false" onAction="#handleExitButtonAction"
+              prefHeight="106.0" prefWidth="281.0" styleClass="transparent-button" />
+
+    </children>
+
+</AnchorPane>

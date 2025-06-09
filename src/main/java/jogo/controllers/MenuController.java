@@ -29,13 +29,4 @@ public class MenuController extends IOException {
     private void handleExitButtonAction(ActionEvent event) {
         Platform.exit();
     }
-
-    @FXML
-    private void initialize() {
-        startButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
-        exitButton.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
-
-        startButton.setText("");
-        exitButton.setText("");
-    }
 }

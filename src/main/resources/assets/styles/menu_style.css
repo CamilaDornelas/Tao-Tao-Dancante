@@ -1,9 +1,0 @@
-
-.transparent-button {
-    -fx-background-color: transparent; /* Fundo transparente */
-    -fx-border-color: transparent;     /* Borda transparente */
-    -fx-padding: 0;                    /* Sem preenchimento interno */
-    -fx-text-fill: transparent;        /* Texto (se houver) também transparente */
-    -fx-cursor: hand;
-}
-

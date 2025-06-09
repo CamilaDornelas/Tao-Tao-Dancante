@@ -5,8 +5,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="jogo.controllers.Transicao1Controller"
-            stylesheets="@../assets/styles/transicao1_style.css"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="jogo.controllers.Transicao1Controller"
+            stylesheets="@../assets/styles/transparente.css"
             prefHeight="804.0" prefWidth="1236.0">
 
 

@@ -11,6 +11,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="jogo.controllers.Fase1Controller"
+            fx:id="rootPane"
             prefHeight="804.0" prefWidth="1236.0">
     <children>
         <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
