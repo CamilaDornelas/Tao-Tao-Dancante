@@ -32,6 +32,7 @@ public class MainApplication extends Application {
         mainStage.show();
     }
 
+
     public static void showTransicao1Screen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/transicao1/transicao1-view.fxml"));
         Scene transicao1Scene = new Scene(fxmlLoader.load(), 1236, 804);

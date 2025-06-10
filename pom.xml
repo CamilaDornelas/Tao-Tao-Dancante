@@ -12,13 +12,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
-        <javafx.version>23.0.1</javafx.version>
+        <javafx.version>21.0.0</javafx.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
     <dependencies>
-        <!-- JavaFX dependencies -->
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -29,8 +29,13 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
-        <!-- Test dependencies -->
+        <!-- JUnit para testes -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -47,6 +52,7 @@
 
     <build>
         <plugins>
+            <!-- Compilador -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -57,18 +63,13 @@
                 </configuration>
             </plugin>
 
+            <!-- Plugin JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.1.0</version>
+                <version>0.0.8</version>
                 <configuration>
                     <mainClass>jogo.MainApplication</mainClass>
-                    <launcher>app</launcher>
-                    <jlinkZipName>app</jlinkZipName>
-                    <jlinkImageName>app</jlinkImageName>
-                    <noManPages>true</noManPages>
-                    <stripDebug>true</stripDebug>
-                    <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
             </plugin>
         </plugins>

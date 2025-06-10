@@ -33,4 +33,9 @@ public class BardoDanca extends Personagem {
                 this.setImage(png1);
             }
         }
+
+
+    public Timeline getAnimacao() {
+        return animation;
+    }
 }

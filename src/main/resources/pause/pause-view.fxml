@@ -19,15 +19,15 @@
         </ImageView>
 
         <Button fx:id="VoltarAoJogoButton" layoutX="476.0" layoutY="267.0"
-                mnemonicParsing="false" onAction="#handleVoltarAoJogoButtonClick"
+                mnemonicParsing="false" onAction="#onResumeClicked"
                 prefHeight="106.0" prefWidth="286.0" styleClass="transparent-button" />
 
         <Button fx:id="menuVoltarButton" layoutX="476.0" layoutY="411.0"
-                mnemonicParsing="false" onAction="#handleMenuVoltarButtonClick"
+                mnemonicParsing="false" onAction="#onBackToMenuClicked"
                 prefHeight="115.0" prefWidth="286.0" styleClass="transparent-button" />
 
       <Button fx:id="exitButton" layoutX="482.0" layoutY="561.0"
-              mnemonicParsing="false" onAction="#handleExitButtonAction"
+              mnemonicParsing="false" onAction="#onExitClicked"
               prefHeight="106.0" prefWidth="281.0" styleClass="transparent-button" />
 
     </children>
