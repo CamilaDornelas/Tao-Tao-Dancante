@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2e390ff8-735c-4488-a116-b7656671a4b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/interfaces/Pause.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/interfaces/Pause.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/interfaces/PauseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/interfaces/PauseManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,6 +140,8 @@
       <workItem from="1749531361816" duration="2633000" />
       <workItem from="1749534404514" duration="39000" />
       <workItem from="1749534454942" duration="622000" />
+      <workItem from="1749535089618" duration="209000" />
+      <workItem from="1749538425619" duration="591000" />
     </task>
     <servers />
   </component>

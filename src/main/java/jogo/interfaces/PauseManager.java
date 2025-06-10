@@ -66,6 +66,7 @@ public class PauseManager implements Pause {
         return paused;
     }
 
+    @Override
     public void backToMenu(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
@@ -79,6 +80,7 @@ public class PauseManager implements Pause {
         }
     }
 
+    @Override
     public void exitGame() {
         System.exit(0);
     }
