@@ -31,8 +31,6 @@ public class Fase1Controller {
         bardo.setLayoutY(335);
         rootPane.getChildren().add(bardo);
 
-
-
         // Cria o lorde
         Lorde lorde = new Lorde(210, 380);
         lorde.setLayoutX(120);
@@ -44,6 +42,7 @@ public class Fase1Controller {
         Media media = new Media(musica);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
 
+
         // Cria um timer de 3 segundos
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         delay.setOnFinished(event -> {
@@ -54,7 +53,6 @@ public class Fase1Controller {
 
         //TUDO AQUI É PRO PAUSE
         pauseManager = new PauseManager(rootPane, bardo.getAnimacao(), mediaPlayer);
-        System.out.println("JavaFX runtime version: " + System.getProperty("javafx.runtime.version"));
 
         rootPane.setFocusTraversable(true);
         Platform.runLater(() -> rootPane.requestFocus());

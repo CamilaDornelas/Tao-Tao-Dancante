@@ -20,7 +20,7 @@ public class PauseController {
 
     @FXML
     private void onResumeClicked() {
-        if (pauseManager != null) pauseManager.resume();
+        pauseManager.resume();
     }
 
     @FXML
@@ -30,6 +30,6 @@ public class PauseController {
 
     @FXML
     private void onExitClicked() {
-        if (pauseManager != null) pauseManager.exitGame();
+        pauseManager.exitGame();
     }
 }

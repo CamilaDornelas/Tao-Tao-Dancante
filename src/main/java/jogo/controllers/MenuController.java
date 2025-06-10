@@ -8,7 +8,7 @@ import jogo.MainApplication;
 
 import java.io.IOException;
 
-public class MenuController extends IOException {
+public class MenuController {
 
     @FXML
     private Button startButton;
