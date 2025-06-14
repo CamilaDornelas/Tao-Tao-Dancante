@@ -6,27 +6,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="804.0" prefWidth="1236.0"
-            styleClass="root-pane"
-            stylesheets="@../assets/styles/transparente.css"
-            xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="jogo.controllers.MenuController">
+            xmlns="http://javafx.com/javafx"
+            fx:controller="jogo.controllers.MenuController"
+            stylesheets="@../assets/styles/transparente.css">
+
     <children>
+        <ImageView fitHeight="804" fitWidth="1236" preserveRatio="false">
+            <image>
+                <Image url="@../assets/imagens/principal.png" />
+            </image>
+        </ImageView>
 
-    <ImageView fitHeight="804" fitWidth="1236" preserveRatio="false">
-        <image>
-            <Image url="@../assets/imagens/principal.png" />
-        </image>
-    </ImageView>
-
-    <Button fx:id="startButton" layoutX="778.0" layoutY="360.0"
-            onAction="#handleStartButtonAction"
+        <Button fx:id="comecarBotao" layoutX="778.0" layoutY="360.0"
+            onAction="#comecar"
             prefHeight="83.0" prefWidth="289.0"
             styleClass="transparent-button" />
 
-    <Button fx:id="exitButton" layoutX="839.0" layoutY="468.0"
-            onAction="#handleExitButtonAction"
+        <Button fx:id="sairBotao" layoutX="839.0" layoutY="468.0"
+            onAction="#sairDoJogo"
             prefHeight="71.0" prefWidth="171.0"
             styleClass="transparent-button" />
+
     </children>
 </AnchorPane>

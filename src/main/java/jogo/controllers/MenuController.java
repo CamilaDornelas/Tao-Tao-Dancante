@@ -11,13 +11,13 @@ import java.io.IOException;
 public class MenuController {
 
     @FXML
-    private Button startButton;
+    private Button comecarBotao;
 
     @FXML
-    private Button exitButton;
+    private Button sairBotao;
 
     @FXML
-    private void handleStartButtonAction(ActionEvent event) {
+    private void comecar(ActionEvent event) {
         try {
             MainApplication.showTransicao1Screen();
         } catch (IOException e) {
@@ -26,7 +26,7 @@ public class MenuController {
     }
 
     @FXML
-    private void handleExitButtonAction(ActionEvent event) {
+    private void sairDoJogo(ActionEvent event) {
         Platform.exit();
     }
 }

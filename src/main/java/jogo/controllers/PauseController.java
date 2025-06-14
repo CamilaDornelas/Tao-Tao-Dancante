@@ -2,34 +2,34 @@ package jogo.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import jogo.interfaces.PauseManager;
+import jogo.interfaces.GestorDePause;
 
 import javafx.event.ActionEvent;
 
 
 public class PauseController {
 
-    private PauseManager pauseManager;
+    private GestorDePause gestorDePause;
 
-    public void setPauseManager(PauseManager pauseManager) {
-        this.pauseManager = pauseManager;
+    public void setGestorDePause(GestorDePause gestorDePause) {
+        this.gestorDePause = gestorDePause;
     }
 
     @FXML
     private AnchorPane pausePane;
 
     @FXML
-    private void onResumeClicked() {
-        pauseManager.resume();
+    private void voltarAoJogo() {
+        gestorDePause.voltar();
     }
 
     @FXML
-    private void onBackToMenuClicked(ActionEvent event) {
-        pauseManager.backToMenu(event);
+    private void voltarAoMenu(ActionEvent event) {
+        gestorDePause.voltarParaMenu(event);
     }
 
     @FXML
-    private void onExitClicked() {
-        pauseManager.exitGame();
+    private void sairDoJogo() {
+        gestorDePause.sairDoJogo();
     }
 }

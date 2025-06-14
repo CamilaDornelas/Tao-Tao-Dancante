@@ -6,10 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="2e390ff8-735c-4488-a116-b7656671a4b9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jogo/controllers/Fase1Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/controllers/Fase1Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jogo/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/controllers/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/jogo/controllers/PauseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/controllers/PauseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/controllers/Transicao1Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/controllers/Transicao1Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/interfaces/Pause.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/interfaces/Pause.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/interfaces/PauseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/interfaces/GestorDePause.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jogo/personagens/BardoDanca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jogo/personagens/BardoDanca.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fase1/fase1-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fase1/fase1-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/menu/menu-principal-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/menu/menu-principal-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pause/pause-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/pause/pause-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/transicao1/transicao1-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/transicao1/transicao1-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +59,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.26206896&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -144,7 +152,10 @@
       <workItem from="1749534454942" duration="622000" />
       <workItem from="1749535089618" duration="209000" />
       <workItem from="1749538425619" duration="929000" />
-      <workItem from="1749539616178" duration="716000" />
+      <workItem from="1749539616178" duration="1142000" />
+      <workItem from="1749681828823" duration="898000" />
+      <workItem from="1749683019641" duration="2762000" />
+      <workItem from="1749913940092" duration="3493000" />
     </task>
     <servers />
   </component>

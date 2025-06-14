@@ -4,9 +4,9 @@ import javafx.event.ActionEvent;
 
 public interface Pause {
     void pause();
-    void resume();
-    boolean isPaused();
-    void backToMenu(ActionEvent event);
-    void exitGame();
+    void voltar();
+    boolean estaPausado();
+    void voltarParaMenu(ActionEvent event);
+    void sairDoJogo();
 }
 

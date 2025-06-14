@@ -5,10 +5,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="804.0" prefWidth="1236.0"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="jogo.controllers.Transicao1Controller"
-            stylesheets="@../assets/styles/transparente.css"
-            prefHeight="804.0" prefWidth="1236.0">
+            stylesheets="@../assets/styles/transparente.css">
 
 
     <children>
@@ -20,13 +20,13 @@
 
         <Button fx:id="menuVoltarButton" layoutX="937.0" layoutY="526.0"
                 mnemonicParsing="false"
-                onAction="#handleMenuVoltarButtonClick"
+                onAction="#voltarMenu"
                 prefHeight="107.0" prefWidth="107.0"
                 styleClass="transparent-button" />
 
         <Button fx:id="comecarJogo" layoutX="1063.0" layoutY="526.0"
                 mnemonicParsing="false"
-                onAction="#handleComecarButtonClick"
+                onAction="#comecarJogo"
                 prefHeight="107.0" prefWidth="107.0"
                 styleClass="transparent-button" />
     </children>

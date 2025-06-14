@@ -5,11 +5,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="pausePane" prefHeight="804.0" prefWidth="1236.0"
-            stylesheets="@../assets/styles/transparente.css"
-            xmlns="http://javafx.com/javafx/23.0.1"
+<AnchorPane prefHeight="804.0" prefWidth="1236.0"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="jogo.controllers.PauseController">
+            fx:controller="jogo.controllers.PauseController"
+            stylesheets="@../assets/styles/transparente.css"
+            fx:id="telaPause">
 
     <children>
         <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
@@ -18,18 +18,17 @@
             </image>
         </ImageView>
 
-        <Button fx:id="VoltarAoJogoButton" layoutX="476.0" layoutY="267.0"
-                mnemonicParsing="false" onAction="#onResumeClicked"
+        <Button fx:id="VoltarAoJogo" layoutX="476.0" layoutY="267.0"
+                mnemonicParsing="false" onAction="#voltarAoJogo"
                 prefHeight="106.0" prefWidth="286.0" styleClass="transparent-button" />
 
-        <Button fx:id="menuVoltarButton" layoutX="476.0" layoutY="411.0"
-                mnemonicParsing="false" onAction="#onBackToMenuClicked"
+        <Button fx:id="menuVoltar" layoutX="476.0" layoutY="411.0"
+                mnemonicParsing="false" onAction="#voltarAoMenu"
                 prefHeight="115.0" prefWidth="286.0" styleClass="transparent-button" />
 
-      <Button fx:id="exitButton" layoutX="482.0" layoutY="561.0"
-              mnemonicParsing="false" onAction="#onExitClicked"
+      <Button fx:id="sair" layoutX="482.0" layoutY="561.0"
+              mnemonicParsing="false" onAction="#sairDoJogo"
               prefHeight="106.0" prefWidth="281.0" styleClass="transparent-button" />
 
     </children>
-
 </AnchorPane>

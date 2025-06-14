@@ -19,29 +19,29 @@ public class Transicao1Controller {
     private Button comecarButton;
 
     @FXML
-    private void handleMenuVoltarButtonClick(ActionEvent event) {
+    private void voltarMenu(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
-            Parent root = loader.load();
+            FXMLLoader menu = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
+            Parent root = menu.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException erro) {
+            erro.printStackTrace();
         }
     }
     @FXML
-    private void handleComecarButtonClick(ActionEvent event) {
+    private void comecarJogo(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fase1/fase1-view.fxml"));
-            Parent root = loader.load();
+            FXMLLoader fase1 = new FXMLLoader(getClass().getResource("/fase1/fase1-view.fxml"));
+            Parent root = fase1.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException erro) {
+            erro.printStackTrace();
         }
     }
 }

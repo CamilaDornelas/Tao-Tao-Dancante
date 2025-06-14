@@ -4,23 +4,22 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import jogo.interfaces.Pause;
 import jogo.personagens.BardoDanca;
 import jogo.personagens.Lorde;
-import jogo.interfaces.PauseManager;
+import jogo.interfaces.GestorDePause;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 
 
-
-
 public class Fase1Controller {
 
-    private PauseManager pauseManager;
+    private Pause GestorDePause;
 
     @FXML
-    private AnchorPane rootPane;
+    private AnchorPane telaFase1;
 
     @FXML
     private void initialize() {
@@ -29,40 +28,40 @@ public class Fase1Controller {
         BardoDanca bardo = new BardoDanca(282, 415);
         bardo.setLayoutX(890); // ajuste conforme o layout
         bardo.setLayoutY(335);
-        rootPane.getChildren().add(bardo);
+        telaFase1.getChildren().add(bardo);
 
         // Cria o lorde
         Lorde lorde = new Lorde(210, 380);
         lorde.setLayoutX(120);
         lorde.setLayoutY(370);
-        rootPane.getChildren().add(lorde);
+        telaFase1.getChildren().add(lorde);
 
         //MUSICA
         String musica = getClass().getResource("/assets/musica/song1.mp3").toExternalForm();
-        Media media = new Media(musica);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        Media midia = new Media(musica);
+        MediaPlayer audio = new MediaPlayer(midia);
 
 
         // Cria um timer de 3 segundos
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         delay.setOnFinished(event -> {
-            mediaPlayer.play();
+            audio.play();
         });
         delay.play();
 
 
         //TUDO AQUI É PRO PAUSE
-        pauseManager = new PauseManager(rootPane, bardo.getAnimacao(), mediaPlayer);
+        GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio);
 
-        rootPane.setFocusTraversable(true);
-        Platform.runLater(() -> rootPane.requestFocus());
+        telaFase1.setFocusTraversable(true);
+        Platform.runLater(() -> telaFase1.requestFocus());
 
-        rootPane.setOnKeyPressed(event -> {
+        telaFase1.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                if (!pauseManager.isPaused()) {
-                    pauseManager.pause();
+                if (!GestorDePause.estaPausado()) {
+                    GestorDePause.pause();
                 } else {
-                    pauseManager.resume();
+                    GestorDePause.voltar();
                 }
             }
         });

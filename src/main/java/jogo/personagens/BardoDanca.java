@@ -10,7 +10,7 @@ public class BardoDanca extends Personagem {
 
         private final Image png1;
         private final Image png2;
-        private final Timeline animation;
+        private final Timeline animacoes;
 
         public BardoDanca(double width, double height) {
             super(width, height);
@@ -19,11 +19,11 @@ public class BardoDanca extends Personagem {
 
             this.setImage(png1);
 
-            animation = new Timeline(
+            animacoes = new Timeline(
                     new KeyFrame(Duration.millis(400), e -> toggleFrame())
             );
-            animation.setCycleCount(Timeline.INDEFINITE);
-            animation.play(); // Começa dançando
+            animacoes.setCycleCount(Timeline.INDEFINITE);
+            animacoes.play(); // Começa dançando
         }
 
         private void toggleFrame() {
@@ -36,6 +36,6 @@ public class BardoDanca extends Personagem {
 
 
     public Timeline getAnimacao() {
-        return animation;
+        return animacoes;
     }
 }
