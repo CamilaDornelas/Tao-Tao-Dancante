@@ -44,9 +44,7 @@ public class Fase1Controller {
 
         // Cria um timer de 3 segundos
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
-        delay.setOnFinished(event -> {
-            audio.play();
-        });
+        delay.setOnFinished(event -> audio.play());
         delay.play();
 
 
