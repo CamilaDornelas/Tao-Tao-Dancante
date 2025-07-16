@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import jogo.interfaces.Pause;
 import jogo.personagens.BardoDanca;
 import jogo.personagens.Lorde;
@@ -16,7 +18,9 @@ import javafx.animation.PauseTransition;
 
 public class Fase1Controller {
 
+
     private Pause GestorDePause;
+
 
     @FXML
     private AnchorPane telaFase1;
@@ -26,7 +30,7 @@ public class Fase1Controller {
 
         // Cria o ogro que dança
         BardoDanca bardo = new BardoDanca(282, 415);
-        bardo.setLayoutX(890); // ajuste conforme o layout
+        bardo.setLayoutX(890);
         bardo.setLayoutY(335);
         telaFase1.getChildren().add(bardo);
 
@@ -51,18 +55,22 @@ public class Fase1Controller {
         //TUDO AQUI É PRO PAUSE
         GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio);
 
+
         telaFase1.setFocusTraversable(true);
         Platform.runLater(() -> telaFase1.requestFocus());
+
 
         telaFase1.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 if (!GestorDePause.estaPausado()) {
                     GestorDePause.pause();
+                    stopArrowSpawning();
                 } else {
                     GestorDePause.voltar();
                 }
             }
         });
+
 
     }
 }
