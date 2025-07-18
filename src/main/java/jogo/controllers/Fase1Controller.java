@@ -36,21 +36,21 @@ public class Fase1Controller {
     private AnchorPane telaFase1;
 
 
-    private List<Setas> activeArrows = new ArrayList<>();
-    private Timeline arrowSpawnTimeline;
+    private List<Setas> setasAtivas = new ArrayList<>();
+    private Timeline timelineSpawSetas;
     private Random random = new Random();
 
 
     private double startX = 340;
-    private double spacing = 120;
+    private double spacing = 130;
     private double arrowWidth = 100;
     private double arrowHeight = 100;
 
 
     private double initialArrowY = 900;
     private double targetArrowY = 40;
-    private double riseDuration = 2000;
-    private double riseDistance = initialArrowY - targetArrowY;
+    private double subidaDuracao = 2000;
+    private double subidDistancia = initialArrowY - targetArrowY;
 
 
     private Rectangle hitZone;
@@ -78,7 +78,7 @@ public class Fase1Controller {
                 startX,
                 targetArrowY,
                 (3 * spacing) + arrowWidth,
-                arrowHeight
+                arrowHeight + 50
         );
         hitZone.setFill(Color.TRANSPARENT);
         hitZone.setStroke(Color.WHITE);
@@ -105,7 +105,7 @@ public class Fase1Controller {
 
 
 
-        GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio);
+        GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio, setasAtivas, this::startArrowSpawning);
 
 
         telaFase1.setFocusTraversable(true);
@@ -131,27 +131,26 @@ public class Fase1Controller {
 
 
     private void startArrowSpawning() {
-        if (arrowSpawnTimeline != null) {
-            arrowSpawnTimeline.stop();
+        if (timelineSpawSetas != null) {
+            timelineSpawSetas.stop(); // Para a timeline anterior, se houver
         }
-        arrowSpawnTimeline = new Timeline(new KeyFrame(Duration.millis(800), event -> {
-            spawnRandomArrow();
+        timelineSpawSetas = new Timeline(new KeyFrame(Duration.millis(800), event -> {
+            spawnRandomArrow(); // Chama o método para gerar uma nova seta
         }));
-        arrowSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
-        arrowSpawnTimeline.play();
+        timelineSpawSetas.setCycleCount(Timeline.INDEFINITE); // Define para repetir indefinidamente
+        timelineSpawSetas.play(); // Inicia a nova timeline
     }
 
-
     private void stopArrowSpawning() {
-        if (arrowSpawnTimeline != null) {
-            arrowSpawnTimeline.stop();
+        if (timelineSpawSetas != null) {
+            timelineSpawSetas.stop();
         }
     }
 
 
     private void spawnRandomArrow() {
-        Setas.ArrowType[] types = Setas.ArrowType.values();
-        Setas.ArrowType randomType = types[random.nextInt(types.length)];
+        Setas.TipoSetas[] types = Setas.TipoSetas.values();
+        Setas.TipoSetas randomType = types[random.nextInt(types.length)];
 
 
         Setas newArrow = new Setas(randomType, arrowWidth, arrowHeight);
@@ -177,39 +176,39 @@ public class Fase1Controller {
         newArrow.setLayoutX(arrowX);
         newArrow.setLayoutY(initialArrowY);
         telaFase1.getChildren().add(newArrow);
-        activeArrows.add(newArrow);
+        setasAtivas.add(newArrow);
 
 
-        newArrow.startRiseAnimation(riseDuration, riseDistance).setOnFinished(event -> {
-            // Se a seta ainda estiver visível ao final da animação, significa que não foi clicada (miss)
+        newArrow.subirSetas(subidaDuracao, subidDistancia).setOnFinished(event -> {
+            // Se a seta ainda estiver visível ao final da animação, significa que não foi clicada (errar)
             if (newArrow.isVisible()) {
-                newArrow.miss(telaFase1, activeArrows); // Chama o método miss para lidar com o desaparecimento
+                newArrow.errar(telaFase1, setasAtivas); // Chama o método errar para lidar com o desaparecimento
             }
         });
     }
 
 
     private void handleKeyPress(KeyCode code) {
-        Setas.ArrowType pressedType = null;
+        Setas.TipoSetas pressedType = null;
         switch (code) {
             case LEFT:
-                pressedType = Setas.ArrowType.LEFT;
+                pressedType = Setas.TipoSetas.LEFT;
                 break;
             case DOWN:
-                pressedType = Setas.ArrowType.DOWN;
+                pressedType = Setas.TipoSetas.DOWN;
                 break;
             case UP:
-                pressedType = Setas.ArrowType.UP;
+                pressedType = Setas.TipoSetas.UP;
                 break;
             case RIGHT:
-                pressedType = Setas.ArrowType.RIGHT;
+                pressedType = Setas.TipoSetas.RIGHT;
                 break;
             default:
                 return;
         }
 
 
-        Iterator<Setas> iterator = activeArrows.iterator();
+        Iterator<Setas> iterator = setasAtivas.iterator();
         while (iterator.hasNext()) {
             Setas arrow = iterator.next();
             if (arrow.getType() == pressedType && arrow.isVisible()) {
@@ -220,7 +219,7 @@ public class Fase1Controller {
 
                 if (currentArrowY + arrow.getFitHeight() >= hitZoneTop && currentArrowY <= hitZoneBottom) {
                     System.out.println("Acerto: Seta " + pressedType + " acertada!");
-                    arrow.hide(); // Faz a seta desaparecer instantaneamente (feedback de acerto)
+                    arrow.esconder(); // Faz a seta desaparecer instantaneamente (feedback de acerto)
                     telaFase1.getChildren().remove(arrow); // Remove do painel
                     iterator.remove(); // Remove da lista de ativas
                     return;

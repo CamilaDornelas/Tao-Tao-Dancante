@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane; // Import AnchorPane
 import javafx.util.Duration;
-import java.util.List; // Import List para o método miss
+import java.util.List; // Import List para o método errar
 import java.util.Objects;
 
 
@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Setas extends ImageView {
 
 
-   public enum ArrowType {
+   public enum TipoSetas {
        UP("/assets/setas/cima.png"),
        DOWN("/assets/setas/baixo.png"),
        LEFT("/assets/setas/esquerda.png"),
@@ -27,7 +27,7 @@ public class Setas extends ImageView {
        private final String imagePath;
 
 
-       ArrowType(String imagePath) {
+       TipoSetas(String imagePath) {
            this.imagePath = imagePath;
        }
 
@@ -38,41 +38,41 @@ public class Setas extends ImageView {
    }
 
 
-   private ArrowType type;
+   private TipoSetas type;
    private ParallelTransition riseAnimation;
 
 
-   public Setas(ArrowType type, double width, double height) {
-       this.type = type;
-       setFitWidth(width);
-       setFitHeight(height);
-       setImage(new Image(Objects.requireNonNull(getClass().getResource(type.getImagePath())).toExternalForm()));
+   public Setas(TipoSetas tipo, double largura, double altura) {
+       this.type = tipo;
+       setFitWidth(largura);
+       setFitHeight(altura);
+       setImage(new Image(Objects.requireNonNull(getClass().getResource(tipo.getImagePath())).toExternalForm()));
        setOpacity(0);
    }
 
 
-   public ArrowType getType() {
+   public TipoSetas getType() {
        return type;
    }
 
 
-   public void setType(ArrowType type) {
-       this.type = type;
+   public void setType(TipoSetas tipo) {
+       this.type = tipo;
        setImage(new Image(getClass().getResource(type.getImagePath()).toExternalForm()));
    }
 
 
-   public ParallelTransition startRiseAnimation(double duration, double distance) {
-       FadeTransition fadeIn = new FadeTransition(Duration.millis(duration), this);
-       fadeIn.setFromValue(0);
-       fadeIn.setToValue(1);
+   public ParallelTransition subirSetas(double duracao, double diatancia) {
+       FadeTransition subindoSetas = new FadeTransition(Duration.millis(duracao), this);
+       subindoSetas.setFromValue(0);
+       subindoSetas.setToValue(1);
 
 
-       TranslateTransition rise = new TranslateTransition(Duration.millis(duration), this);
-       rise.setByY(-distance);
+       TranslateTransition subir = new TranslateTransition(Duration.millis(duracao), this);
+       subir.setByY(-diatancia);
 
 
-       riseAnimation = new ParallelTransition(fadeIn, rise);
+       riseAnimation = new ParallelTransition(subindoSetas, subir);
        riseAnimation.play();
        return riseAnimation;
    }
@@ -81,7 +81,7 @@ public class Setas extends ImageView {
    /**
     * Faz a seta desaparecer instantaneamente (usado para acertos).
     */
-   public void hide() {
+   public void esconder() {
        this.setVisible(false);
        if (riseAnimation != null && riseAnimation.getStatus() == javafx.animation.Animation.Status.RUNNING) {
            riseAnimation.stop();
@@ -94,7 +94,7 @@ public class Setas extends ImageView {
     * @param parentPane O AnchorPane pai para remover a seta após a animação.
     * @param activeArrows A lista de setas ativas para remover a seta.
     */
-   public void miss(AnchorPane parentPane, List<Setas> activeArrows) {
+   public void errar(AnchorPane parentPane, List<Setas> activeArrows) {
        if (riseAnimation != null && riseAnimation.getStatus() == javafx.animation.Animation.Status.RUNNING) {
            riseAnimation.stop(); // Para a animação de subida se ainda estiver rodando
        }
@@ -117,7 +117,7 @@ public class Setas extends ImageView {
    }
 
 
-   public void show() {
+   public void mostar() {
        this.setVisible(true);
        this.setOpacity(1);
    }
