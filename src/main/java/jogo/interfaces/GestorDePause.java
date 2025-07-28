@@ -34,6 +34,11 @@ public class GestorDePause implements Pause {
         this.voltarSetas = resumeGameAction; // Ou 'this.voltarSetas = voltarSetas;' se você usou esse nome
     }
 
+    public List<Setas> getSetasAtivas() {
+        return setasAtivas;
+    }
+
+
     @Override
     public void pause() {
         if (!pausado) {

@@ -94,30 +94,39 @@ public class Setas extends ImageView {
     * @param parentPane O AnchorPane pai para remover a seta após a animação.
     * @param activeArrows A lista de setas ativas para remover a seta.
     */
+//   public void errar(AnchorPane parentPane, List<Setas> activeArrows) {
+//       if (riseAnimation != null && riseAnimation.getStatus() == javafx.animation.Animation.Status.RUNNING) {
+//           riseAnimation.stop(); // Para a animação de subida se ainda estiver rodando
+//       }
+//
+//
+//       FadeTransition fadeOut = new FadeTransition(Duration.millis(300), this); // Fade-out em 300ms
+//       fadeOut.setFromValue(1);
+//       fadeOut.setToValue(0);
+//       fadeOut.setOnFinished(event -> {
+//           // Verifica se a seta ainda é filha do painel antes de tentar remover
+//           if (parentPane.getChildren().contains(this)) {
+//               parentPane.getChildren().remove(this); // Remove do painel
+//           }
+//           // Verifica se a seta ainda está na lista antes de tentar remover
+//           if (activeArrows.contains(this)) {
+//               activeArrows.remove(this); // Remove da lista de ativas
+//           }
+//       });
+//       fadeOut.play();
+//   }
    public void errar(AnchorPane parentPane, List<Setas> activeArrows) {
-       if (riseAnimation != null && riseAnimation.getStatus() == javafx.animation.Animation.Status.RUNNING) {
-           riseAnimation.stop(); // Para a animação de subida se ainda estiver rodando
+       if (parentPane.getChildren().contains(this)) {
+           parentPane.getChildren().remove(this);
        }
-
-
-       FadeTransition fadeOut = new FadeTransition(Duration.millis(300), this); // Fade-out em 300ms
-       fadeOut.setFromValue(1);
-       fadeOut.setToValue(0);
-       fadeOut.setOnFinished(event -> {
-           // Verifica se a seta ainda é filha do painel antes de tentar remover
-           if (parentPane.getChildren().contains(this)) {
-               parentPane.getChildren().remove(this); // Remove do painel
-           }
-           // Verifica se a seta ainda está na lista antes de tentar remover
-           if (activeArrows.contains(this)) {
-               activeArrows.remove(this); // Remove da lista de ativas
-           }
-       });
-       fadeOut.play();
+       if (activeArrows.contains(this)) {
+           activeArrows.remove(this);
+       }
    }
 
 
-   public void mostar() {
+
+    public void mostar() {
        this.setVisible(true);
        this.setOpacity(1);
    }

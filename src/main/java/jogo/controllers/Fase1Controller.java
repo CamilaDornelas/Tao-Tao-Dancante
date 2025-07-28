@@ -1,5 +1,11 @@
 package jogo.controllers;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import jogo.componentes.PlacarDeVida;
+
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,221 +19,197 @@ import jogo.personagens.Lorde;
 import jogo.interfaces.GestorDePause;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import jogo.componentes.Setas;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+
+import jogo.servicos.FinalizarFase;
+import jogo.servicos.GerenciadorSetas;
+
 
 
 
 
 public class Fase1Controller {
 
-
     private Pause GestorDePause;
-
+    private GerenciadorSetas gerenciadorDeSetas;
 
     @FXML
     private AnchorPane telaFase1;
 
-
-    private List<Setas> setasAtivas = new ArrayList<>();
-    private Timeline timelineSpawSetas;
-    private Random random = new Random();
-
-
-    private double startX = 340;
-    private double spacing = 130;
-    private double arrowWidth = 100;
-    private double arrowHeight = 100;
-
-
-    private double initialArrowY = 900;
-    private double targetArrowY = 40;
-    private double subidaDuracao = 2000;
-    private double subidDistancia = initialArrowY - targetArrowY;
-
-
     private Rectangle hitZone;
+    private MediaPlayer audio;
+    private PlacarDeVida placarDeVida;
 
+    private Lorde lorde;
+    private BardoDanca bardo;
 
-
-
+    private boolean jogoTerminou = false;
     @FXML
     private void initialize() {
+        inicializarPersonagens();
+        inicializarHitZone();
+        inicializarPlacar();
+        inicializarMusica();
+        inicializarGerenciadorDeSetas();
+        configurarTeclado();
+        iniciarFase();
+    }
+
+    private final double initialSubidaDuracao = 6000;
+    private final double finalSubidaDuracao = 3000;
+    private final double tempoDeAceleracao = 28000;
+    private final double duracaoAposAceleracao = 2500;
+    private final double tempoDeAceleracaoMaxima = 74000;
+    private double pontuacao = 0.5;
+
+    private final double GANHO_POR_ACERTO = 0.03;
+    private final double PENALIDADE_POR_ERRO = 0.06;
 
 
-        BardoDanca bardo = new BardoDanca(282, 415);
+    public void iniciarFase() {
+        //gerenciadorDeSetas = new GerenciadorSetas(telaFase1, hitZone, audio, placarDeVida, this::mostrarTelaFinal);
+        //gerenciadorDeSetas = new GerenciadorSetas(telaFase1, hitZone, audio, placarDeVida, this::mostrarTelaFinal);
+//        gerenciadorDeSetas.setAoIniciarSetas(this::startArrowSpawning); // ⬅ Aqui é o ponto!
+        gerenciadorDeSetas.setFornecedorDeDuracao(this::calcularDuracaoSeta);
+        gerenciadorDeSetas.setAtualizadorDePontuacao(this::atualizarPontuacao);
+        gerenciadorDeSetas.setIniciarSetas(this::startArrowSpawning);
+
+
+
+        gerenciadorDeSetas.iniciar(); // Inicia a contagem e a lógica da fase
+    }
+
+
+    private void inicializarPersonagens() {
+        bardo = new BardoDanca(282, 415);
         bardo.setLayoutX(890);
         bardo.setLayoutY(335);
         telaFase1.getChildren().add(bardo);
 
-
-        Lorde lorde = new Lorde(210, 380);
+        lorde = new Lorde(210, 380);
         lorde.setLayoutX(120);
         lorde.setLayoutY(370);
         telaFase1.getChildren().add(lorde);
+    }
 
-
-        hitZone = new Rectangle(
-                startX,
-                targetArrowY,
-                (3 * spacing) + arrowWidth,
-                arrowHeight + 50
-        );
+    private void inicializarHitZone() {
+        hitZone = new Rectangle(300, 15, (3 * 165) + 190, 130);
         hitZone.setFill(Color.TRANSPARENT);
-        hitZone.setStroke(Color.WHITE);
+        hitZone.setStroke(Color.TRANSPARENT);
         hitZone.setStrokeWidth(3);
         telaFase1.getChildren().add(hitZone);
+    }
 
+    private void inicializarPlacar() {
+        placarDeVida = new PlacarDeVida();
+        placarDeVida.setLayoutX(400);
+        placarDeVida.setLayoutY(700);
+        telaFase1.getChildren().add(placarDeVida);
+    }
 
+    private void inicializarMusica() {
+        String musicaPath = getClass().getResource("/assets/musica/song1.mp3").toExternalForm();
+        Media midia = new Media(musicaPath);
+        audio = new MediaPlayer(midia);
+    }
 
-
-        String musica = getClass().getResource("/assets/musica/song1.mp3").toExternalForm();
-        Media midia = new Media(musica);
-        MediaPlayer audio = new MediaPlayer(midia);
-
-
-
-
-        PauseTransition initialDelay = new PauseTransition(Duration.seconds(3));
-        initialDelay.setOnFinished(event -> {
-            audio.play();
-            startArrowSpawning();
+    private void inicializarGerenciadorDeSetas() {
+        gerenciadorDeSetas = new GerenciadorSetas(telaFase1, hitZone, audio, placarDeVida, () -> {
+            verificarResultadoFinal();
         });
-        initialDelay.play();
+        gerenciadorDeSetas.iniciar();
 
+        GestorDePause = new GestorDePause(
+                telaFase1,
+                bardo.getAnimacao(),
+                audio,
+                gerenciadorDeSetas.getSetasAtivas(), // ✅ lista corretamente passada
+                gerenciadorDeSetas::iniciar
+        );
 
+        //GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio, null, gerenciadorDeSetas::iniciar);
+    }
 
-
-        GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio, setasAtivas, this::startArrowSpawning);
-
-
+    private void configurarTeclado() {
         telaFase1.setFocusTraversable(true);
         Platform.runLater(() -> telaFase1.requestFocus());
 
-
         telaFase1.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                if (!GestorDePause.estaPausado()) {
-                    GestorDePause.pause();
-                    stopArrowSpawning();
+            if (!jogoTerminou) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    if (!GestorDePause.estaPausado()) {
+                        GestorDePause.pause();
+                        gerenciadorDeSetas.stopArrowSpawning();
+                    } else {
+                        GestorDePause.voltar();
+                        gerenciadorDeSetas.iniciar();
+                    }
                 } else {
-                    GestorDePause.voltar();
-                    startArrowSpawning();
+                    gerenciadorDeSetas.processarTecla(event.getCode());
                 }
-            } else if (!GestorDePause.estaPausado()) {
-                handleKeyPress(event.getCode());
             }
         });
 
 
     }
+    private void mostrarTelaFinal(boolean vitoria) {
+        if (jogoTerminou) return;
+        jogoTerminou = true;
 
+        if (audio != null) audio.stop();
+        gerenciadorDeSetas.stopArrowSpawning();
+
+        Stage stage = (Stage) telaFase1.getScene().getWindow();
+        FinalizarFase.finalizarFase(stage, vitoria);
+    }
+    private void verificarResultadoFinal() {
+        double pontuacao = gerenciadorDeSetas.getPontuacao();
+        boolean venceu = pontuacao > 0.5;
+        mostrarTelaFinal(venceu);
+    }
+
+    private Timeline timelineSpawn;
 
     private void startArrowSpawning() {
-        if (timelineSpawSetas != null) {
-            timelineSpawSetas.stop(); // Para a timeline anterior, se houver
-        }
-        timelineSpawSetas = new Timeline(new KeyFrame(Duration.millis(800), event -> {
-            spawnRandomArrow(); // Chama o método para gerar uma nova seta
+        gerenciadorDeSetas.stopArrowSpawning();
+
+
+        timelineSpawn = new Timeline(new KeyFrame(Duration.millis(1200), e -> {
+            double atual = audio.getCurrentTime().toMillis();
+            if (atual >= tempoDeAceleracaoMaxima) {
+                timelineSpawn.setRate(2.5);
+            } else if (atual >= tempoDeAceleracao) {
+                timelineSpawn.setRate(1.9);
+            } else {
+                timelineSpawn.setRate(1.0);
+            }
+
+            gerenciadorDeSetas.spawnRandomArrow();
         }));
-        timelineSpawSetas.setCycleCount(Timeline.INDEFINITE); // Define para repetir indefinidamente
-        timelineSpawSetas.play(); // Inicia a nova timeline
+
+        timelineSpawn.setCycleCount(Timeline.INDEFINITE);
+        timelineSpawn.play();
     }
 
-    private void stopArrowSpawning() {
-        if (timelineSpawSetas != null) {
-            timelineSpawSetas.stop();
+    private double calcularDuracaoSeta() {
+        double atual = audio.getCurrentTime().toMillis();
+        if (atual >= tempoDeAceleracao) return duracaoAposAceleracao;
+
+        double progresso = Math.min(1.0, atual / tempoDeAceleracao);
+        double atualDuracao = initialSubidaDuracao - ((initialSubidaDuracao - finalSubidaDuracao) * progresso);
+        return Math.max(finalSubidaDuracao, atualDuracao);
+    }
+
+    private void atualizarPontuacao(boolean acerto) {
+        if (jogoTerminou) return;
+
+        pontuacao += acerto ? GANHO_POR_ACERTO : -PENALIDADE_POR_ERRO;
+        pontuacao = Math.max(0.0, Math.min(1.0, pontuacao));
+        placarDeVida.atualizar(pontuacao, null);
+
+        if (pontuacao <= 0) {
+            mostrarTelaFinal(false);
         }
     }
 
 
-    private void spawnRandomArrow() {
-        Setas.TipoSetas[] types = Setas.TipoSetas.values();
-        Setas.TipoSetas randomType = types[random.nextInt(types.length)];
-
-
-        Setas newArrow = new Setas(randomType, arrowWidth, arrowHeight);
-
-
-        double arrowX = startX;
-        switch (randomType) {
-            case LEFT:
-                arrowX = startX;
-                break;
-            case DOWN:
-                arrowX = startX + (2 * spacing);
-                break;
-            case UP:
-                arrowX = startX + spacing;
-                break;
-            case RIGHT:
-                arrowX = startX + (3 * spacing);
-                break;
-        }
-
-
-        newArrow.setLayoutX(arrowX);
-        newArrow.setLayoutY(initialArrowY);
-        telaFase1.getChildren().add(newArrow);
-        setasAtivas.add(newArrow);
-
-
-        newArrow.subirSetas(subidaDuracao, subidDistancia).setOnFinished(event -> {
-            // Se a seta ainda estiver visível ao final da animação, significa que não foi clicada (errar)
-            if (newArrow.isVisible()) {
-                newArrow.errar(telaFase1, setasAtivas); // Chama o método errar para lidar com o desaparecimento
-            }
-        });
-    }
-
-
-    private void handleKeyPress(KeyCode code) {
-        Setas.TipoSetas pressedType = null;
-        switch (code) {
-            case LEFT:
-                pressedType = Setas.TipoSetas.LEFT;
-                break;
-            case DOWN:
-                pressedType = Setas.TipoSetas.DOWN;
-                break;
-            case UP:
-                pressedType = Setas.TipoSetas.UP;
-                break;
-            case RIGHT:
-                pressedType = Setas.TipoSetas.RIGHT;
-                break;
-            default:
-                return;
-        }
-
-
-        Iterator<Setas> iterator = setasAtivas.iterator();
-        while (iterator.hasNext()) {
-            Setas arrow = iterator.next();
-            if (arrow.getType() == pressedType && arrow.isVisible()) {
-                double currentArrowY = arrow.getLayoutY() + arrow.getTranslateY();
-                double hitZoneTop = hitZone.getLayoutY();
-                double hitZoneBottom = hitZone.getLayoutY() + hitZone.getHeight();
-
-
-                if (currentArrowY + arrow.getFitHeight() >= hitZoneTop && currentArrowY <= hitZoneBottom) {
-                    System.out.println("Acerto: Seta " + pressedType + " acertada!");
-                    arrow.esconder(); // Faz a seta desaparecer instantaneamente (feedback de acerto)
-                    telaFase1.getChildren().remove(arrow); // Remove do painel
-                    iterator.remove(); // Remove da lista de ativas
-                    return;
-                }
-            }
-        }
-        System.out.println("Erro: Nenhuma seta " + pressedType + " na zona de acerto para acertar.");
-    }
 }
-
-
