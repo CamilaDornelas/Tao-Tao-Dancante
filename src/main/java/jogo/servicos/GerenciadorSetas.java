@@ -31,7 +31,7 @@ public class GerenciadorSetas {
     private final Random random = new Random();
     private Timeline timelineSpawn;
 
-    private double pontuacao = 0.5;
+    //private double pontuacao = 0.5;
     private boolean jogoTerminou = false;
     private boolean jogoPausado = false;
 
@@ -47,6 +47,7 @@ public class GerenciadorSetas {
         this.jogoTerminou = jogoTerminou;
     }
 
+    int indice = 0;
     private final double startX = 300;
     private final double spacing = 165;
     private final double arrowWidth = 190;
@@ -54,7 +55,7 @@ public class GerenciadorSetas {
     private final double initialArrowY = 900;
     private final double subidDistancia = initialArrowY + arrowHeight;
 
-    private final double initialSubidaDuracao = 6000;
+   // private final double initialSubidaDuracao = 6000;
 //    private final double finalSubidaDuracao = 3000;
 //    private final double tempoDeAceleracao = 28000;
 //    private final double duracaoAposAceleracao = 2500;
@@ -102,7 +103,8 @@ public class GerenciadorSetas {
         });
         inicial.play();
 
-        audio.setOnEndOfMedia(this::verificarResultadoFinal);
+        //audio.setOnEndOfMedia(this::verificarResultadoFinal);
+        audio.setOnEndOfMedia(aoFinalDaFase);
     }
 
 
@@ -126,6 +128,7 @@ public class GerenciadorSetas {
 //        timelineSpawn.play();
 //    }
 
+
     public void stopArrowSpawning() {
         if (timelineSpawn != null) {
             timelineSpawn.stop();
@@ -143,7 +146,9 @@ public class GerenciadorSetas {
     public void spawnRandomArrow() {
         if (jogoTerminou || jogoPausado) return;
 
-        Setas.TipoSetas tipo = Setas.TipoSetas.values()[random.nextInt(4)];
+
+        int[] setas = { 0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1};
+        Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
         Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight);
 
         double posX = switch (tipo) {
@@ -206,7 +211,7 @@ public class GerenciadorSetas {
                 if (y + seta.getFitHeight() >= topo && y <= base) {
                     System.out.println("Acerto: " + tipo);
                     atualizadorDePontuacao.accept(true);
-                    atualizadorDePontuacao.accept(false);
+                    //atualizadorDePontuacao(true);
                     acertou = true;
                     seta.esconder();
                     tela.getChildren().remove(seta);
@@ -235,36 +240,48 @@ public class GerenciadorSetas {
 //        }
 //    }
 
-    private void verificarResultadoFinal() {
-        mostrarTelaFinal(pontuacao > 0.5);
-    }
+//    private void verificarResultadoFinal() {
+//        mostrarTelaFinal(pontuacao > 0.5);
+//    }
 
-    private void mostrarTelaFinal(boolean vitoria) {
-        if (jogoTerminou) return;
-        jogoTerminou = true;
-        if (audio != null) audio.stop();
-        stopArrowSpawning();
-        aoFinalDaFase.run();
-    }
-    public double getPontuacao() {
-        return pontuacao;
-    }
+//    private void mostrarTelaFinal(boolean vitoria) {
+//        if (jogoTerminou) return;
+//        jogoTerminou = true;
+//        if (audio != null) audio.stop();
+//        stopArrowSpawning();
+//        aoFinalDaFase.run();
+//    }
+//    public double getPontuacao() {
+//        return pontuacao;
+//    }
 
     public List<Setas> getSetasAtivas() {
         return setasAtivas;
     }
 
-
+    public void mostrarTelaFinal(boolean vitoria) { // Este método foi movido ou adaptado do Fase1Controller
+        if (jogoTerminou) return;
+        jogoTerminou = true;
+        if (audio != null) audio.stop();
+        stopArrowSpawning(); // Isso ainda depende do gerenciador de setas ter acesso ao timelineSpawn.
+        aoFinalDaFase.run();
+    }
 
     public void pauseSpawn() {
-        if (timelineSpawn != null) {
-            timelineSpawn.pause();
-        }
+        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
+        // if (timelineSpawn != null) {
+        //     timelineSpawn.pause();
+        // }
+        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
     }
 
     public void resumeSpawn() {
-        if (timelineSpawn != null) {
-            timelineSpawn.play();
-        }
+        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
+        // if (timelineSpawn != null) {
+        //     timelineSpawn.play();
+        // }
+        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
     }
+
+
 }

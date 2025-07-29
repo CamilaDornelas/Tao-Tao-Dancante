@@ -154,25 +154,26 @@ public class Fase1Controller {
 
 
     }
-    private void mostrarTelaFinal(boolean vitoria) {
-        if (jogoTerminou) return;
-        jogoTerminou = true;
-
-        gerenciadorDeSetas.setJogoTerminou(true);
-
-        if (audio != null) audio.stop();
-        gerenciadorDeSetas.stopArrowSpawning();
-
-        Stage stage = (Stage) telaFase1.getScene().getWindow();
-        if (stage == null) {
-            System.err.println("Erro: O Stage é nulo ao tentar mostrar a tela final. A janela pode ter sido fechada ou não está disponível.");
-            return;
-        }
-        FinalizarFase.finalizarFase(stage, vitoria);
-    }
+//    private void mostrarTelaFinal(boolean vitoria) {
+//        if (jogoTerminou) return;
+//        jogoTerminou = true;
+//
+//        gerenciadorDeSetas.setJogoTerminou(true);
+//
+//        if (audio != null) audio.stop();
+//        gerenciadorDeSetas.stopArrowSpawning();
+//
+//        Stage stage = (Stage) telaFase1.getScene().getWindow();
+//        if (stage == null) {
+//            System.err.println("Erro: O Stage é nulo ao tentar mostrar a tela final. A janela pode ter sido fechada ou não está disponível.");
+//            return;
+//        }
+//        FinalizarFase.finalizarFase(stage, vitoria);
+//    }
     private void verificarResultadoFinal() {
-        double pontuacao = gerenciadorDeSetas.getPontuacao();
-        boolean venceu = pontuacao > 0.5;
+        //double pontuacao = gerenciadorDeSetas.getPontuacao();
+        //boolean venceu = pontuacao > 0.5;
+        boolean venceu = this.pontuacao > 0.5;
         mostrarTelaFinal(venceu);
     }
 
@@ -219,6 +220,22 @@ public class Fase1Controller {
             mostrarTelaFinal(false);
         }
     }
+    private void mostrarTelaFinal(boolean vitoria) {
+               if (jogoTerminou) return;
+               jogoTerminou = true;
+
+               gerenciadorDeSetas.setJogoTerminou(true);
+
+               if (audio != null) audio.stop();
+               gerenciadorDeSetas.stopArrowSpawning();
+
+                Stage stage = (Stage) telaFase1.getScene().getWindow();
+                if (stage == null) {
+                        System.err.println("Erro: O Stage é nulo ao tentar mostrar a tela final. A janela pode ter sido fechada ou não está disponível.");
+                       return;
+                    }
+                FinalizarFase.finalizarFase(stage, vitoria);
+            }
 
 
 }

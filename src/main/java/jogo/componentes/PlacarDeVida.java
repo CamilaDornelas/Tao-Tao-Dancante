@@ -74,17 +74,17 @@ public class PlacarDeVida extends StackPane {
         if (porcentagem > 0.60) {
             preenchimento.setFill(Color.LIMEGREEN);
             if (lorde != null) {
-                lorde.ficarComRaiva(); // Lorde com raiva
+                lorde.ficarComRaiva();
             }
         } else if (porcentagem < 0.40) {
             preenchimento.setFill(Color.RED);
             if (lorde != null) {
-                lorde.ficarFeliz(); // Lorde com raiva
+                lorde.ficarFeliz();
             }
         } else {
             preenchimento.setFill(Color.YELLOW);
             if (lorde != null) {
-                lorde.ficarPensativo(); // Lorde pensativo
+                lorde.ficarPensativo();
             }
         }
     }
