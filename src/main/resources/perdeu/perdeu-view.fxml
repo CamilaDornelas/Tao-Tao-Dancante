@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="telaPause" prefHeight="804.0" prefWidth="1236.0" stylesheets="@../assets/styles/transparente.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="jogo.controllers.PerdeuController">
+
+    <children>
+        <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../assets/imagens/perdeu.png" />
+            </image>
+        </ImageView>
+
+
+        <Button fx:id="menuVoltar" layoutX="63.0" layoutY="682.0" mnemonicParsing="false" onAction="#menuVoltar" prefHeight="81.0" prefWidth="137.0" styleClass="transparent-button" />
+
+
+    </children>
+</AnchorPane>

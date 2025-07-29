@@ -18,7 +18,7 @@
             </image>
         </ImageView>
 
-        <Button fx:id="menuVoltarButton" layoutX="937.0" layoutY="526.0"
+        <Button fx:id="voltarMenu" layoutX="937.0" layoutY="526.0"
                 mnemonicParsing="false"
                 onAction="#voltarMenu"
                 prefHeight="107.0" prefWidth="107.0"
