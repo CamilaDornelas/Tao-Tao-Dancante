@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import jogo.interfaces.Pause;
 import jogo.personagens.BardoDanca;
 import jogo.personagens.Lorde;
-import jogo.interfaces.GestorDePause;
+import jogo.servicos.GestorDePause;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 

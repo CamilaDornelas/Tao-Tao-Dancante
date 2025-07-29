@@ -55,15 +55,6 @@ public class GerenciadorSetas {
     private final double initialArrowY = 900;
     private final double subidDistancia = initialArrowY + arrowHeight;
 
-   // private final double initialSubidaDuracao = 6000;
-//    private final double finalSubidaDuracao = 3000;
-//    private final double tempoDeAceleracao = 28000;
-//    private final double duracaoAposAceleracao = 2500;
-//    private final double tempoDeAceleracaoMaxima = 74000;
-//
-//    private final double GANHO_POR_ACERTO = 0.03;
-//    private final double PENALIDADE_POR_ERRO = 0.06;
-
 
     private Supplier<Double> fornecedorDeDuracao;
     private Consumer<Boolean> atualizadorDePontuacao;
@@ -89,11 +80,6 @@ public class GerenciadorSetas {
         this.aoFinalDaFase = aoFinalDaFase;
     }
 
-//    private Runnable aoIniciarSetas;
-//
-//    public void setAoIniciarSetas(Runnable callback) {
-//        this.aoIniciarSetas = callback;
-//    }
 
     public void iniciar() {
         PauseTransition inicial = new PauseTransition(Duration.seconds(3));
@@ -107,26 +93,6 @@ public class GerenciadorSetas {
         audio.setOnEndOfMedia(aoFinalDaFase);
     }
 
-
-//    private void startArrowSpawning() {
-//        stopArrowSpawning();
-//
-//        timelineSpawn = new Timeline(new KeyFrame(Duration.millis(1200), e -> {
-//            double atual = audio.getCurrentTime().toMillis();
-//            if (atual >= tempoDeAceleracaoMaxima) {
-//                timelineSpawn.setRate(2.5);
-//            } else if (atual >= tempoDeAceleracao) {
-//                timelineSpawn.setRate(1.9);
-//            } else {
-//                timelineSpawn.setRate(1.0);
-//            }
-//
-//            spawnRandomArrow();
-//        }));
-//
-//        timelineSpawn.setCycleCount(Timeline.INDEFINITE);
-//        timelineSpawn.play();
-//    }
 
 
     public void stopArrowSpawning() {
@@ -147,7 +113,11 @@ public class GerenciadorSetas {
         if (jogoTerminou || jogoPausado) return;
 
 
-        int[] setas = { 0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1};
+        int[] setas = { 0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1, 2, 0, 1, 3, 3, 2, 1, 0,
+                2, 2, 2, 3, 0, 3, 1, 0, 2, 1, 0, 1, 3, 0, 0, 1, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
+                3, 1, 2, 3, 0, 0, 2, 3, 3, 1, 2, 3, 0, 0, 0, 1, 1, 1, 2, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
+                2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
+
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
         Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight);
 
@@ -173,16 +143,6 @@ public class GerenciadorSetas {
             }
         });
     }
-
-//    private double calcularDuracaoSeta() {
-//        double atual = audio.getCurrentTime().toMillis();
-//        if (atual >= tempoDeAceleracao) return duracaoAposAceleracao;
-//
-//        double progresso = Math.min(1.0, atual / tempoDeAceleracao);
-//        double atualDuracao = initialSubidaDuracao gerenciadorDeSetas.setAoIniciarSetas(this::startArrowSpawning);
-//- ((initialSubidaDuracao - finalSubidaDuracao) * progresso);
-//        return Math.max(finalSubidaDuracao, atualDuracao);
-//    }
 
     public void processarTecla(KeyCode tecla) {
         if (this.jogoTerminou) {
@@ -228,38 +188,12 @@ public class GerenciadorSetas {
         }
     }
 
-//    private void atualizarPontuacao(boolean acerto) {
-//        if (jogoTerminou) return;
-//
-//        pontuacao += acerto ? GANHO_POR_ACERTO : -PENALIDADE_POR_ERRO;
-//        pontuacao = Math.max(0.0, Math.min(1.0, pontuacao));
-//        placar.atualizar(pontuacao, null); // o Lorde pode ser setado externamente se precisar
-//
-//        if (pontuacao <= 0) {
-//            mostrarTelaFinal(false);
-//        }
-//    }
-
-//    private void verificarResultadoFinal() {
-//        mostrarTelaFinal(pontuacao > 0.5);
-//    }
-
-//    private void mostrarTelaFinal(boolean vitoria) {
-//        if (jogoTerminou) return;
-//        jogoTerminou = true;
-//        if (audio != null) audio.stop();
-//        stopArrowSpawning();
-//        aoFinalDaFase.run();
-//    }
-//    public double getPontuacao() {
-//        return pontuacao;
-//    }
 
     public List<Setas> getSetasAtivas() {
         return setasAtivas;
     }
 
-    public void mostrarTelaFinal(boolean vitoria) { // Este método foi movido ou adaptado do Fase1Controller
+    public void mostrarTelaFinal(boolean vitoria) { // Este metodo foi movido ou adaptado do Fase1Controller
         if (jogoTerminou) return;
         jogoTerminou = true;
         if (audio != null) audio.stop();

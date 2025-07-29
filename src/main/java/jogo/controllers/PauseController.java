@@ -2,7 +2,7 @@ package jogo.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-import jogo.interfaces.GestorDePause;
+import jogo.servicos.GestorDePause;
 
 import javafx.event.ActionEvent;
 

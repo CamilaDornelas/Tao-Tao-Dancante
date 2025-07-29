@@ -1,4 +1,4 @@
-package jogo.interfaces;
+package jogo.servicos;
 
 import javafx.animation.Animation;
 import javafx.animation.ParallelTransition;
@@ -16,7 +16,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
 import jogo.componentes.Setas;
-import jogo.servicos.GerenciadorSetas;
+import jogo.interfaces.Pause;
 
 public class GestorDePause implements Pause {
 
