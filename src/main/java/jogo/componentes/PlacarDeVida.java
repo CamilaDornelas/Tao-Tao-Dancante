@@ -26,35 +26,35 @@ public class PlacarDeVida extends StackPane {
 
     public PlacarDeVida() {
 
-        // 1. Fundo cinza da barra
+
         fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
         fundo.setFill(Color.GRAY);
         fundo.setArcWidth(20);
         fundo.setArcHeight(20);
 
-        // 2. Preenchimento colorido (começa em 50%)
+
         preenchimento = new Rectangle(LARGURA_TOTAL / 2, ALTURA_TOTAL);
-        preenchimento.setFill(Color.LIMEGREEN); // Cor para o jogador
+        preenchimento.setFill(Color.LIMEGREEN);
         preenchimento.setArcWidth(20);
         preenchimento.setArcHeight(20);
 
-        // Alinha o preenchimento à esquerda dentro do StackPane
+
         StackPane.setAlignment(preenchimento, Pos.CENTER_LEFT);
 
-        // 3. Ícones
+
         iconeJogador = criarIcone("/assets/persona/bardoBarra.png");
         iconeOponente = criarIcone("/assets/persona/lordBarra.png");
 
-        // 4. Layout para os ícones
+
         layoutIcones = new HBox();
-        layoutIcones.setSpacing(LARGURA_TOTAL - 60); // Espaçamento para colocar os ícones nas pontas
+        layoutIcones.setSpacing(LARGURA_TOTAL - 60);
         layoutIcones.setAlignment(Pos.CENTER);
         layoutIcones.getChildren().addAll(iconeOponente, iconeJogador);
 
-        // Adiciona tudo ao StackPane
+
         this.getChildren().addAll(fundo, preenchimento, layoutIcones);
 
-        // Atualiza a barra para o estado inicial (50%)
+
         atualizar(0.5, null);
     }
 
@@ -66,28 +66,7 @@ public class PlacarDeVida extends StackPane {
         return icone;
     }
 
-    /**
-     * Atualiza a barra de vida com base em uma porcentagem (0.0 a 1.0).
-     * 0.0 = Oponente venceu, 0.5 = Neutro, 1.0 = Jogador venceu.
-     * @param porcentagem Pontuação atual do jogador.
-     */
-//    public void atualizar(double porcentagem) {
-//        // Garante que a porcentagem fique entre 0 e 1
-//        porcentagem = Math.max(0, Math.min(1, porcentagem));
-//
-//        double novaLargura = LARGURA_TOTAL * porcentagem;
-//        preenchimento.setWidth(novaLargura);
-//
-//        if (porcentagem > 0.60) {
-//            preenchimento.setFill(Color.LIMEGREEN);
-//
-//        } else if (porcentagem < 0.40) {
-//            preenchimento.setFill(Color.RED);
-//
-//        } else {
-//            preenchimento.setFill(Color.YELLOW);
-//        }
-//    }
+
     public void atualizar(double porcentagem, Lorde lorde) {
         porcentagem = Math.max(0, Math.min(1, porcentagem));
         preenchimento.setWidth(LARGURA_TOTAL * porcentagem);

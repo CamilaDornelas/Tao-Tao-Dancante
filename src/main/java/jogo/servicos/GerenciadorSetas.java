@@ -33,6 +33,19 @@ public class GerenciadorSetas {
 
     private double pontuacao = 0.5;
     private boolean jogoTerminou = false;
+    private boolean jogoPausado = false;
+
+    public boolean isJogoPausado() {
+        return jogoPausado;
+    }
+
+    public void setJogoPausado(boolean jogoPausado) {
+        this.jogoPausado = jogoPausado;
+    }
+
+    public void setJogoTerminou(boolean jogoTerminou) {
+        this.jogoTerminou = jogoTerminou;
+    }
 
     private final double startX = 300;
     private final double spacing = 165;
@@ -128,7 +141,7 @@ public class GerenciadorSetas {
     }
 
     public void spawnRandomArrow() {
-        if (jogoTerminou) return;
+        if (jogoTerminou || jogoPausado) return;
 
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[random.nextInt(4)];
         Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight);
@@ -167,6 +180,9 @@ public class GerenciadorSetas {
 //    }
 
     public void processarTecla(KeyCode tecla) {
+        if (this.jogoTerminou) {
+            return;
+        }
         Setas.TipoSetas tipo = switch (tecla) {
             case LEFT -> Setas.TipoSetas.LEFT;
             case DOWN -> Setas.TipoSetas.DOWN;
@@ -222,7 +238,7 @@ public class GerenciadorSetas {
     private void verificarResultadoFinal() {
         mostrarTelaFinal(pontuacao > 0.5);
     }
-//
+
     private void mostrarTelaFinal(boolean vitoria) {
         if (jogoTerminou) return;
         jogoTerminou = true;
@@ -236,5 +252,19 @@ public class GerenciadorSetas {
 
     public List<Setas> getSetasAtivas() {
         return setasAtivas;
+    }
+
+
+
+    public void pauseSpawn() {
+        if (timelineSpawn != null) {
+            timelineSpawn.pause();
+        }
+    }
+
+    public void resumeSpawn() {
+        if (timelineSpawn != null) {
+            timelineSpawn.play();
+        }
     }
 }

@@ -27,7 +27,7 @@ public class MenuController {
     @FXML
     private void comecar(ActionEvent event) {
         System.out.println("Começar clicado!");
-        // Usamos o novo método para carregar a tela de transição com o efeito de fade
+
         MainApplication.switchScene("/transicao1/transicao1-view.fxml");
     }
 

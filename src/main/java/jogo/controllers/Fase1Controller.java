@@ -75,7 +75,9 @@ public class Fase1Controller {
 
 
 
-        gerenciadorDeSetas.iniciar(); // Inicia a contagem e a lógica da fase
+        gerenciadorDeSetas.iniciar();
+
+
     }
 
 
@@ -116,14 +118,15 @@ public class Fase1Controller {
         gerenciadorDeSetas = new GerenciadorSetas(telaFase1, hitZone, audio, placarDeVida, () -> {
             verificarResultadoFinal();
         });
-        gerenciadorDeSetas.iniciar();
-
+        //gerenciadorDeSetas.iniciar();
+        System.out.println(gerenciadorDeSetas.getSetasAtivas());
         GestorDePause = new GestorDePause(
                 telaFase1,
                 bardo.getAnimacao(),
                 audio,
-                gerenciadorDeSetas.getSetasAtivas(), // ✅ lista corretamente passada
-                gerenciadorDeSetas::iniciar
+                gerenciadorDeSetas.getSetasAtivas(),
+                null,
+                gerenciadorDeSetas
         );
 
         //GestorDePause = new GestorDePause(telaFase1, bardo.getAnimacao(), audio, null, gerenciadorDeSetas::iniciar);
@@ -138,10 +141,10 @@ public class Fase1Controller {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     if (!GestorDePause.estaPausado()) {
                         GestorDePause.pause();
-                        gerenciadorDeSetas.stopArrowSpawning();
+                      //  gerenciadorDeSetas.stopArrowSpawning();
                     } else {
                         GestorDePause.voltar();
-                        gerenciadorDeSetas.iniciar();
+                       // gerenciadorDeSetas.iniciar();
                     }
                 } else {
                     gerenciadorDeSetas.processarTecla(event.getCode());
@@ -155,10 +158,16 @@ public class Fase1Controller {
         if (jogoTerminou) return;
         jogoTerminou = true;
 
+        gerenciadorDeSetas.setJogoTerminou(true);
+
         if (audio != null) audio.stop();
         gerenciadorDeSetas.stopArrowSpawning();
 
         Stage stage = (Stage) telaFase1.getScene().getWindow();
+        if (stage == null) {
+            System.err.println("Erro: O Stage é nulo ao tentar mostrar a tela final. A janela pode ter sido fechada ou não está disponível.");
+            return;
+        }
         FinalizarFase.finalizarFase(stage, vitoria);
     }
     private void verificarResultadoFinal() {

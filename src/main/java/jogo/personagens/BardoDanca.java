@@ -23,7 +23,8 @@ public class BardoDanca extends Personagem {
                     new KeyFrame(Duration.millis(400), e -> toggleFrame())
             );
             animacoes.setCycleCount(Timeline.INDEFINITE);
-            animacoes.play(); // Começa dançando
+            animacoes.play();
+
         }
 
         private void toggleFrame() {
