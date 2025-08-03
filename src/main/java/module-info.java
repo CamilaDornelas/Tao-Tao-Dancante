@@ -1,4 +1,4 @@
-module demo { 
+module demo {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
@@ -7,10 +7,9 @@ module demo {
     opens jogo to javafx.fxml;
     exports jogo;
 
-  
     opens transicao1 to javafx.fxml;
     exports jogo.controllers;
     opens jogo.controllers to javafx.fxml;
 
-
+    opens jogo.fases to javafx.fxml;
 }

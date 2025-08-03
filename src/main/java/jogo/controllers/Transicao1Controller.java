@@ -29,7 +29,7 @@ public class Transicao1Controller {
     @FXML
     private void comecarJogo(ActionEvent event) {
         try {
-            FXMLLoader fase1 = new FXMLLoader(getClass().getResource("/fase1/fase1-view.fxml"));
+            FXMLLoader fase1 = new FXMLLoader(getClass().getResource("/fases/fase-view.fxml"));
             Parent root = fase1.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -39,5 +39,4 @@ public class Transicao1Controller {
             erro.printStackTrace();
         }
     }
-
 }
