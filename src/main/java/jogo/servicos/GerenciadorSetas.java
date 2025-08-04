@@ -13,6 +13,7 @@ import jogo.componentes.Setas;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.function.Function; // Nova importação para a action de erro
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,9 @@ public class GerenciadorSetas {
     private final List<Setas> setasAtivas = new ArrayList<>();
     private final Random random = new Random();
     private Timeline timelineSpawn;
+
+    // Adicione a nova variável para a ação de erro
+    private Runnable erroAction;
 
     //private double pontuacao = 0.5;
     private boolean jogoTerminou = false;
@@ -71,6 +75,12 @@ public class GerenciadorSetas {
     public void setIniciarSetas(Runnable callback) {
         this.aoIniciarSetas = callback;
     }
+
+    // Adicione o método para definir a ação de erro
+    public void setErroAction(Runnable erroAction) {
+        this.erroAction = erroAction;
+    }
+
 
     public GerenciadorSetas(AnchorPane tela, Rectangle hitZone, MediaPlayer audio, PlacarDeVida placar, Runnable aoFinalDaFase) {
         this.tela = tela;
@@ -119,7 +129,7 @@ public class GerenciadorSetas {
                 2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
 
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
-        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight);
+        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, erroAction);
 
         double posX = switch (tipo) {
             case LEFT -> startX - 10;
@@ -137,9 +147,10 @@ public class GerenciadorSetas {
         double duracaoAtual = fornecedorDeDuracao != null ? fornecedorDeDuracao.get() : 3000;
         novaSeta.subirSetas(duracaoAtual, subidDistancia).setOnFinished(ev -> {
             if (novaSeta.isVisible()) {
-                //atualizarPontuacao(false);
-                atualizadorDePontuacao.accept(false);
+                // Em vez de chamar atualizarPontuacao(false) e errar() diretamente,
+                // vamos fazer a seta chamar a sua própria lógica de 'errar', que já foi modificada para chamar a ação de erro.
                 novaSeta.errar(tela, setasAtivas);
+                atualizadorDePontuacao.accept(false);
             }
         });
     }
@@ -185,6 +196,11 @@ public class GerenciadorSetas {
             System.out.println("Erro: nenhuma " + tipo + " válida.");
             //atualizarPontuacao(false);
             atualizadorDePontuacao.accept(false);
+
+            // Chame a ação de erro aqui
+            if (erroAction != null) {
+                erroAction.run();
+            }
         }
     }
 
@@ -202,19 +218,11 @@ public class GerenciadorSetas {
     }
 
     public void pauseSpawn() {
-        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
-        // if (timelineSpawn != null) {
-        //     timelineSpawn.pause();
-        // }
-        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
+
     }
 
     public void resumeSpawn() {
-        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
-        // if (timelineSpawn != null) {
-        //     timelineSpawn.play();
-        // }
-        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
+
     }
 
 

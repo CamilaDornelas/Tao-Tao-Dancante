@@ -9,6 +9,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import jogo.componentes.PlacarDeVida;
 import jogo.interfaces.Pause;
 import jogo.personagens.BardoDanca;
@@ -36,6 +40,8 @@ public abstract class FaseBase {
 
     protected final double GANHO_POR_ACERTO = 0.03;
     protected final double PENALIDADE_POR_ERRO = 0.06;
+
+    protected ImageView erroImageView;
 
     @FXML
     protected void initialize() {
@@ -76,7 +82,8 @@ public abstract class FaseBase {
 
     protected void inicializarGerenciadorDeSetas() {
         gerenciadorDeSetas = new GerenciadorSetas(telaFase, hitZone, audio, placarDeVida, this::verificarResultadoFinal);
-        gestorDePause = new GestorDePause(telaFase, bardo.getAnimacao(), audio, gerenciadorDeSetas.getSetasAtivas(), null, gerenciadorDeSetas);
+        gerenciadorDeSetas.setErroAction(this::showErrorImage);
+        gestorDePause = new GestorDePause(telaFase, bardo.getAnimacao(), audio, gerenciadorDeSetas.getSetasAtivas(), gerenciadorDeSetas::spawnRandomArrow, gerenciadorDeSetas);
     }
 
     protected void configurarTeclado() {
@@ -126,5 +133,39 @@ public abstract class FaseBase {
         Stage stage = (Stage) telaFase.getScene().getWindow();
         if (stage != null)
             FinalizarFase.finalizarFase(stage, vitoria);
+    }
+
+    protected void showErrorImage() {
+        if (erroImageView != null) {
+            return;
+        }
+        try {
+            Image erroImage = new Image(getClass().getResourceAsStream("/assets/erro/erro.png"));
+            erroImageView = new ImageView(erroImage);
+
+            // Reduz o tamanho da imagem para 100x100 pixels
+            erroImageView.setFitWidth(150);
+            erroImageView.setFitHeight(150);
+
+            double paneWidth = telaFase.getWidth();
+            double paneHeight = telaFase.getHeight();
+            double imageWidth = erroImageView.getFitWidth();
+            double imageHeight = erroImageView.getFitHeight();
+
+            erroImageView.setX((paneWidth - imageWidth) / 2);
+            erroImageView.setY((paneHeight - imageHeight) / 2);
+
+            telaFase.getChildren().add(erroImageView);
+
+            PauseTransition pt = new PauseTransition(Duration.millis(250));
+            pt.setOnFinished(e -> {
+                telaFase.getChildren().remove(erroImageView);
+                erroImageView = null;
+            });
+            pt.play();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar a imagem de erro: assets/erro/erro.png");
+            e.printStackTrace();
+        }
     }
 }

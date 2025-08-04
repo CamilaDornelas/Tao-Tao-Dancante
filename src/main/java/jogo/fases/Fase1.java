@@ -76,4 +76,8 @@ public class Fase1 extends FaseBase {
         double progresso = Math.min(1.0, atual / tempoDeAceleracao);
         return initialSubidaDuracao - ((initialSubidaDuracao - finalSubidaDuracao) * progresso);
     }
+
+
 }
+
+
