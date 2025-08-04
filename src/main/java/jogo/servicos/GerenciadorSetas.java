@@ -13,7 +13,7 @@ import jogo.componentes.Setas;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.Function; // Nova importação para a action de erro
+import java.lang.Runnable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,10 +32,9 @@ public class GerenciadorSetas {
     private final Random random = new Random();
     private Timeline timelineSpawn;
 
-    // Adicione a nova variável para a ação de erro
-    private Runnable erroAction;
+    private Runnable erroAction; // Ação para quando a tecla for apertada fora do tempo
+    private Runnable missAction; // Ação para quando a seta passar da zona de acerto
 
-    //private double pontuacao = 0.5;
     private boolean jogoTerminou = false;
     private boolean jogoPausado = false;
 
@@ -76,9 +75,13 @@ public class GerenciadorSetas {
         this.aoIniciarSetas = callback;
     }
 
-    // Adicione o método para definir a ação de erro
     public void setErroAction(Runnable erroAction) {
         this.erroAction = erroAction;
+    }
+
+    // Adicione o método para definir a ação de miss
+    public void setMissAction(Runnable missAction) {
+        this.missAction = missAction;
     }
 
 
@@ -99,7 +102,6 @@ public class GerenciadorSetas {
         });
         inicial.play();
 
-        //audio.setOnEndOfMedia(this::verificarResultadoFinal);
         audio.setOnEndOfMedia(aoFinalDaFase);
     }
 
@@ -129,7 +131,7 @@ public class GerenciadorSetas {
                 2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
 
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
-        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, erroAction);
+        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, this::onArrowMissed);
 
         double posX = switch (tipo) {
             case LEFT -> startX - 10;
@@ -143,14 +145,10 @@ public class GerenciadorSetas {
         tela.getChildren().add(novaSeta);
         setasAtivas.add(novaSeta);
 
-        //double duracaoAtual = calcularDuracaoSeta();
         double duracaoAtual = fornecedorDeDuracao != null ? fornecedorDeDuracao.get() : 3000;
         novaSeta.subirSetas(duracaoAtual, subidDistancia).setOnFinished(ev -> {
             if (novaSeta.isVisible()) {
-                // Em vez de chamar atualizarPontuacao(false) e errar() diretamente,
-                // vamos fazer a seta chamar a sua própria lógica de 'errar', que já foi modificada para chamar a ação de erro.
                 novaSeta.errar(tela, setasAtivas);
-                atualizadorDePontuacao.accept(false);
             }
         });
     }
@@ -182,7 +180,6 @@ public class GerenciadorSetas {
                 if (y + seta.getFitHeight() >= topo && y <= base) {
                     System.out.println("Acerto: " + tipo);
                     atualizadorDePontuacao.accept(true);
-                    //atualizadorDePontuacao(true);
                     acertou = true;
                     seta.esconder();
                     tela.getChildren().remove(seta);
@@ -194,10 +191,8 @@ public class GerenciadorSetas {
 
         if (!acertou) {
             System.out.println("Erro: nenhuma " + tipo + " válida.");
-            //atualizarPontuacao(false);
             atualizadorDePontuacao.accept(false);
 
-            // Chame a ação de erro aqui
             if (erroAction != null) {
                 erroAction.run();
             }
@@ -209,21 +204,22 @@ public class GerenciadorSetas {
         return setasAtivas;
     }
 
-    public void mostrarTelaFinal(boolean vitoria) { // Este metodo foi movido ou adaptado do Fase1Controller
+    public void mostrarTelaFinal(boolean vitoria) {
         if (jogoTerminou) return;
         jogoTerminou = true;
         if (audio != null) audio.stop();
-        stopArrowSpawning(); // Isso ainda depende do gerenciador de setas ter acesso ao timelineSpawn.
+        stopArrowSpawning();
         aoFinalDaFase.run();
     }
 
-    public void pauseSpawn() {
+    public void pauseSpawn() { }
+    public void resumeSpawn() { }
 
+    // Novo método para a ação de 'miss'
+    private void onArrowMissed() {
+        if (missAction != null) {
+            missAction.run();
+        }
+        atualizadorDePontuacao.accept(false);
     }
-
-    public void resumeSpawn() {
-
-    }
-
-
 }

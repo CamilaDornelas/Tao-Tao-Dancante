@@ -42,6 +42,7 @@ public abstract class FaseBase {
     protected final double PENALIDADE_POR_ERRO = 0.06;
 
     protected ImageView erroImageView;
+    protected ImageView missImageView;
 
     @FXML
     protected void initialize() {
@@ -83,6 +84,7 @@ public abstract class FaseBase {
     protected void inicializarGerenciadorDeSetas() {
         gerenciadorDeSetas = new GerenciadorSetas(telaFase, hitZone, audio, placarDeVida, this::verificarResultadoFinal);
         gerenciadorDeSetas.setErroAction(this::showErrorImage);
+        gerenciadorDeSetas.setMissAction(this::showMissImage);
         gestorDePause = new GestorDePause(telaFase, bardo.getAnimacao(), audio, gerenciadorDeSetas.getSetasAtivas(), gerenciadorDeSetas::spawnRandomArrow, gerenciadorDeSetas);
     }
 
@@ -143,9 +145,8 @@ public abstract class FaseBase {
             Image erroImage = new Image(getClass().getResourceAsStream("/assets/erro/erro.png"));
             erroImageView = new ImageView(erroImage);
 
-            // Reduz o tamanho da imagem para 100x100 pixels
-            erroImageView.setFitWidth(150);
-            erroImageView.setFitHeight(150);
+            erroImageView.setFitWidth(100);
+            erroImageView.setFitHeight(100);
 
             double paneWidth = telaFase.getWidth();
             double paneHeight = telaFase.getHeight();
@@ -157,7 +158,7 @@ public abstract class FaseBase {
 
             telaFase.getChildren().add(erroImageView);
 
-            PauseTransition pt = new PauseTransition(Duration.millis(250));
+            PauseTransition pt = new PauseTransition(Duration.millis(500));
             pt.setOnFinished(e -> {
                 telaFase.getChildren().remove(erroImageView);
                 erroImageView = null;
@@ -165,6 +166,39 @@ public abstract class FaseBase {
             pt.play();
         } catch (Exception e) {
             System.err.println("Erro ao carregar a imagem de erro: assets/erro/erro.png");
+            e.printStackTrace();
+        }
+    }
+
+    protected void showMissImage() {
+        if (missImageView != null) {
+            return;
+        }
+        try {
+            Image missImage = new Image(getClass().getResourceAsStream("/assets/erro/miss.png"));
+            missImageView = new ImageView(missImage);
+
+            missImageView.setFitWidth(100);
+            missImageView.setFitHeight(100);
+
+            double paneWidth = telaFase.getWidth();
+            double paneHeight = telaFase.getHeight();
+            double imageWidth = missImageView.getFitWidth();
+            double imageHeight = missImageView.getFitHeight();
+
+            missImageView.setX((paneWidth - imageWidth) / 2);
+            missImageView.setY((paneHeight - imageHeight) / 2);
+
+            telaFase.getChildren().add(missImageView);
+
+            PauseTransition pt = new PauseTransition(Duration.millis(500));
+            pt.setOnFinished(e -> {
+                telaFase.getChildren().remove(missImageView);
+                missImageView = null;
+            });
+            pt.play();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar a imagem de miss: assets/erro/miss.png");
             e.printStackTrace();
         }
     }
