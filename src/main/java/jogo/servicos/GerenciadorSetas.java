@@ -13,6 +13,7 @@ import jogo.componentes.Setas;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.lang.Runnable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,7 +32,9 @@ public class GerenciadorSetas {
     private final Random random = new Random();
     private Timeline timelineSpawn;
 
-    //private double pontuacao = 0.5;
+    private Runnable erroAction; // Ação para quando a tecla for apertada fora do tempo
+    private Runnable missAction; // Ação para quando a seta passar da zona de acerto
+
     private boolean jogoTerminou = false;
     private boolean jogoPausado = false;
 
@@ -72,6 +75,16 @@ public class GerenciadorSetas {
         this.aoIniciarSetas = callback;
     }
 
+    public void setErroAction(Runnable erroAction) {
+        this.erroAction = erroAction;
+    }
+
+    // Adicione o método para definir a ação de miss
+    public void setMissAction(Runnable missAction) {
+        this.missAction = missAction;
+    }
+
+
     public GerenciadorSetas(AnchorPane tela, Rectangle hitZone, MediaPlayer audio, PlacarDeVida placar, Runnable aoFinalDaFase) {
         this.tela = tela;
         this.hitZone = hitZone;
@@ -89,7 +102,6 @@ public class GerenciadorSetas {
         });
         inicial.play();
 
-        //audio.setOnEndOfMedia(this::verificarResultadoFinal);
         audio.setOnEndOfMedia(aoFinalDaFase);
     }
 
@@ -119,7 +131,7 @@ public class GerenciadorSetas {
                 2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
 
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
-        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight);
+        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, this::onArrowMissed);
 
         double posX = switch (tipo) {
             case LEFT -> startX - 10;
@@ -133,12 +145,9 @@ public class GerenciadorSetas {
         tela.getChildren().add(novaSeta);
         setasAtivas.add(novaSeta);
 
-        //double duracaoAtual = calcularDuracaoSeta();
         double duracaoAtual = fornecedorDeDuracao != null ? fornecedorDeDuracao.get() : 3000;
         novaSeta.subirSetas(duracaoAtual, subidDistancia).setOnFinished(ev -> {
             if (novaSeta.isVisible()) {
-                //atualizarPontuacao(false);
-                atualizadorDePontuacao.accept(false);
                 novaSeta.errar(tela, setasAtivas);
             }
         });
@@ -171,7 +180,6 @@ public class GerenciadorSetas {
                 if (y + seta.getFitHeight() >= topo && y <= base) {
                     System.out.println("Acerto: " + tipo);
                     atualizadorDePontuacao.accept(true);
-                    //atualizadorDePontuacao(true);
                     acertou = true;
                     seta.esconder();
                     tela.getChildren().remove(seta);
@@ -183,8 +191,11 @@ public class GerenciadorSetas {
 
         if (!acertou) {
             System.out.println("Erro: nenhuma " + tipo + " válida.");
-            //atualizarPontuacao(false);
             atualizadorDePontuacao.accept(false);
+
+            if (erroAction != null) {
+                erroAction.run();
+            }
         }
     }
 
@@ -193,29 +204,22 @@ public class GerenciadorSetas {
         return setasAtivas;
     }
 
-    public void mostrarTelaFinal(boolean vitoria) { // Este metodo foi movido ou adaptado do Fase1Controller
+    public void mostrarTelaFinal(boolean vitoria) {
         if (jogoTerminou) return;
         jogoTerminou = true;
         if (audio != null) audio.stop();
-        stopArrowSpawning(); // Isso ainda depende do gerenciador de setas ter acesso ao timelineSpawn.
+        stopArrowSpawning();
         aoFinalDaFase.run();
     }
 
-    public void pauseSpawn() {
-        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
-        // if (timelineSpawn != null) {
-        //     timelineSpawn.pause();
-        // }
-        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
+    public void pauseSpawn() { }
+    public void resumeSpawn() { }
+
+    // Novo método para a ação de 'miss'
+    private void onArrowMissed() {
+        if (missAction != null) {
+            missAction.run();
+        }
+        atualizadorDePontuacao.accept(false);
     }
-
-    public void resumeSpawn() {
-        // Se timelineSpawn for um campo de GerenciadorSetas, seria assim:
-        // if (timelineSpawn != null) {
-        //     timelineSpawn.play();
-        // }
-        // Caso contrário, esta lógica precisa ser implementada no Fase1Controller.
-    }
-
-
 }
