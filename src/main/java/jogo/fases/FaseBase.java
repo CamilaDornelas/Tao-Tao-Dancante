@@ -11,10 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import jogo.componentes.PlacarDeVida;
-import jogo.interfaces.Pause;
 import jogo.personagens.BardoDanca;
 import jogo.personagens.Lorde;
 import jogo.servicos.GerenciadorSetas;
@@ -85,7 +82,14 @@ public abstract class FaseBase {
         gerenciadorDeSetas = new GerenciadorSetas(telaFase, hitZone, audio, placarDeVida, this::verificarResultadoFinal);
         gerenciadorDeSetas.setErroAction(this::showErrorImage);
         gerenciadorDeSetas.setMissAction(this::showMissImage);
-        gestorDePause = new GestorDePause(telaFase, bardo.getAnimacao(), audio, gerenciadorDeSetas.getSetasAtivas(), gerenciadorDeSetas::spawnRandomArrow, gerenciadorDeSetas);
+        gestorDePause = GestorDePause.getInstance(
+                telaFase,
+                bardo.getAnimacao(),
+                audio,
+                gerenciadorDeSetas.getSetasAtivas(),
+                gerenciadorDeSetas::setasSubindo,
+                gerenciadorDeSetas
+        );
     }
 
     protected void configurarTeclado() {
@@ -130,7 +134,7 @@ public abstract class FaseBase {
 
         gerenciadorDeSetas.setJogoTerminou(true);
         if (audio != null) audio.stop();
-        gerenciadorDeSetas.stopArrowSpawning();
+        gerenciadorDeSetas.pararSetas();
 
         Stage stage = (Stage) telaFase.getScene().getWindow();
         if (stage != null)

@@ -6,8 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.application.Platform;
 import jogo.MainApplication;
 
-import java.io.IOException;
-
 public class MenuController {
 
     @FXML
@@ -28,7 +26,7 @@ public class MenuController {
     private void comecar(ActionEvent event) {
         System.out.println("Começar clicado!");
 
-        MainApplication.switchScene("/transicao1/transicao1-view.fxml");
+        MainApplication.trocarTela("/transicao1/transicao1-view.fxml");
     }
 
 

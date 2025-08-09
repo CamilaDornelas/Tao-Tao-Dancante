@@ -1,6 +1,5 @@
 package jogo.servicos;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
@@ -38,9 +37,6 @@ public class GerenciadorSetas {
     private boolean jogoTerminou = false;
     private boolean jogoPausado = false;
 
-    public boolean isJogoPausado() {
-        return jogoPausado;
-    }
 
     public void setJogoPausado(boolean jogoPausado) {
         this.jogoPausado = jogoPausado;
@@ -79,7 +75,7 @@ public class GerenciadorSetas {
         this.erroAction = erroAction;
     }
 
-    // Adicione o método para definir a ação de miss
+    // Adiciona o metodo para definir a ação de miss
     public void setMissAction(Runnable missAction) {
         this.missAction = missAction;
     }
@@ -107,7 +103,7 @@ public class GerenciadorSetas {
 
 
 
-    public void stopArrowSpawning() {
+    public void pararSetas() {
         if (timelineSpawn != null) {
             timelineSpawn.stop();
         }
@@ -121,7 +117,7 @@ public class GerenciadorSetas {
         setasAtivas.clear();
     }
 
-    public void spawnRandomArrow() {
+    public void setasSubindo() {
         if (jogoTerminou || jogoPausado) return;
 
 
@@ -131,7 +127,7 @@ public class GerenciadorSetas {
                 2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
 
         Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
-        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, this::onArrowMissed);
+        Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, this::setaMissed);
 
         double posX = switch (tipo) {
             case LEFT -> startX - 10;
@@ -204,19 +200,12 @@ public class GerenciadorSetas {
         return setasAtivas;
     }
 
-    public void mostrarTelaFinal(boolean vitoria) {
-        if (jogoTerminou) return;
-        jogoTerminou = true;
-        if (audio != null) audio.stop();
-        stopArrowSpawning();
-        aoFinalDaFase.run();
-    }
 
     public void pauseSpawn() { }
     public void resumeSpawn() { }
 
-    // Novo método para a ação de 'miss'
-    private void onArrowMissed() {
+    // Novo metodo para a ação de 'miss'
+    private void setaMissed() {
         if (missAction != null) {
             missAction.run();
         }

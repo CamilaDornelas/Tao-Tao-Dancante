@@ -55,7 +55,7 @@ public class Fase1 extends FaseBase {
     }
 
     private void startArrowSpawning() {
-        gerenciadorDeSetas.stopArrowSpawning();
+        gerenciadorDeSetas.pararSetas();
 
         timelineSpawn = new Timeline(new KeyFrame(Duration.millis(1200), e -> {
             double atual = audio.getCurrentTime().toMillis();
@@ -63,7 +63,7 @@ public class Fase1 extends FaseBase {
                     atual >= tempoDeAceleracaoMaxima ? 2.5 :
                             atual >= tempoDeAceleracao ? 1.9 : 1.0
             );
-            gerenciadorDeSetas.spawnRandomArrow();
+            gerenciadorDeSetas.setasSubindo();
         }));
 
         timelineSpawn.setCycleCount(Timeline.INDEFINITE);

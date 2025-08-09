@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 
 public class MainApplication extends Application {
@@ -19,23 +18,21 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         mainStage = stage;
 
-        // carregando o FXML do menu principal
         FXMLLoader menu = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
 
-        //tamanho da janela
         Scene scene = new Scene(menu.load(), 1236, 804); //
 
         //icone do jar
         Image icon = new Image(getClass().getResourceAsStream("/assets/icones/icone2.png"));
         mainStage.getIcons().add(icon);
 
-        mainStage.setTitle("Tão Tão Dançante"); //título da janela
+        mainStage.setTitle("Tão Tão Dançante");
         mainStage.setScene(scene);
 
-        mainStage.setResizable(false); //não pode redimensionar a janela
+        mainStage.setResizable(false);
         mainStage.show();
     }
-    public static void switchScene(String fxmlFile) {
+    public static void trocarTela(String fxmlFile) {
         try {
             Parent currentRoot = mainStage.getScene().getRoot();
             FadeTransition fadeOut = new FadeTransition(Duration.millis(400), currentRoot);
