@@ -6,17 +6,12 @@ import jogo.excecoes.VidaInsuficienteException;
 import javafx.scene.image.Image;
 import java.util.Objects;
 
-/**
- * Classe Lorde que herda de PersonagemJogo.
- * Mantém as funcionalidades visuais + adiciona lógica de gameplay.
- */
+
 public class Lorde extends PersonagemJogo {
     
-    // Atributos específicos do Lorde (para atender requisito de POO)
     private int pontosPrecisao;
     private boolean posturaElegante;
     
-    // Suas imagens existentes
     private final Image imgPensador;
     private final Image imgRaiva;
     private final Image imgFeliz;
@@ -24,11 +19,9 @@ public class Lorde extends PersonagemJogo {
     public Lorde(double width, double height) throws PersonagemInvalidoException {
         super("Lorde", TipoPersonagem.LORDE, width, height);
         
-        // Inicializa atributos específicos do Lorde
         this.pontosPrecisao = 15;
         this.posturaElegante = true;
         
-        // Suas imagens (mantendo exatamente como estava)
         imgPensador = new Image(Objects.requireNonNull(
             getClass().getResource("/assets/persona/lordThinker.png")).toExternalForm());
         imgRaiva = new Image(Objects.requireNonNull(
@@ -39,22 +32,21 @@ public class Lorde extends PersonagemJogo {
         this.setImage(imgPensador);
     }
     
-    // SEUS métodos visuais (mantidos exatamente como estavam)
     public void ficarPensativo() {
         this.setImage(imgPensador);
     }
     
     public void ficarComRaiva() {
         this.setImage(imgRaiva);
-        this.posturaElegante = false; // Perde elegância quando fica com raiva
+        this.posturaElegante = false;
     }
     
     public void ficarFeliz() {
         this.setImage(imgFeliz);
-        this.posturaElegante = true; // Recupera elegância quando fica feliz
+        this.posturaElegante = true;
     }
     
-    // NOVOS métodos para atender requisitos de POO
+
     @Override
     public void executarMovimento() {
         System.out.println(getNome() + " executa um movimento nobre e elegante!");
@@ -65,7 +57,7 @@ public class Lorde extends PersonagemJogo {
         }
         
         adicionarPontos(pontosBase);
-        ficarFeliz(); // Muda visual quando executa movimento
+        ficarFeliz();
     }
     
     @Override
@@ -84,7 +76,7 @@ public class Lorde extends PersonagemJogo {
                (posturaElegante ? " (Postura Elegante)" : " (Postura Comprometida)");
     }
     
-    // Getters específicos do Lorde
+
     public int getPontosPrecisao() { 
         return pontosPrecisao; 
     }

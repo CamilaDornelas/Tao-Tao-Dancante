@@ -11,82 +11,86 @@ import java.util.Objects;
 
 import jogo.personagens.Lorde;
 
-
 public class PlacarDeVida extends StackPane {
 
-    private final double LARGURA_TOTAL = 400;
-    private final double ALTURA_TOTAL = 25;
+    private static final double LARGURA_TOTAL = 400.0;
+    private static final double ALTURA_TOTAL = 25.0;
+    private static final double RAIO_ARCO = 20.0;
+    private static final double TAMANHO_ICONE = 40.0;
+    private static final double ESPACAMENTO_ICONES = LARGURA_TOTAL - 60.0;
 
-    private Rectangle fundo;
-    private Rectangle preenchimento;
+    private static final String COR_FUNDO = "#808080"; // GRAY
+    private static final String COR_ALTA_VIDA = "#32CD32"; // LIMEGREEN
+    private static final String COR_MEDIA_VIDA = "#FFFF00"; // YELLOW
+    private static final String COR_BAIXA_VIDA = "#FF0000"; // RED
+
+    private Rectangle fundoBarra;
+    private Rectangle preenchimentoBarra;
     private ImageView iconeJogador;
     private ImageView iconeOponente;
     private HBox layoutIcones;
 
-
     public PlacarDeVida() {
-
-
-        fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
-        fundo.setFill(Color.GRAY);
-        fundo.setArcWidth(20);
-        fundo.setArcHeight(20);
-
-
-        preenchimento = new Rectangle(LARGURA_TOTAL / 2, ALTURA_TOTAL);
-        preenchimento.setFill(Color.LIMEGREEN);
-        preenchimento.setArcWidth(20);
-        preenchimento.setArcHeight(20);
-
-
-        StackPane.setAlignment(preenchimento, Pos.CENTER_LEFT);
-
+        fundoBarra = criarFundoBarra();
+        preenchimentoBarra = criarPreenchimentoBarraInicial();
 
         iconeJogador = criarIcone("/assets/persona/bardoBarra.png");
         iconeOponente = criarIcone("/assets/persona/lordBarra.png");
 
-
         layoutIcones = new HBox();
-        layoutIcones.setSpacing(LARGURA_TOTAL - 60);
+        layoutIcones.setSpacing(ESPACAMENTO_ICONES);
         layoutIcones.setAlignment(Pos.CENTER);
         layoutIcones.getChildren().addAll(iconeOponente, iconeJogador);
 
-
-        this.getChildren().addAll(fundo, preenchimento, layoutIcones);
-
+        this.getChildren().addAll(fundoBarra, preenchimentoBarra, layoutIcones);
 
         atualizar(0.5, null);
+    }
+
+    private Rectangle criarFundoBarra() {
+        Rectangle fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
+        fundo.setFill(Color.web(COR_FUNDO));
+        fundo.setArcWidth(RAIO_ARCO);
+        fundo.setArcHeight(RAIO_ARCO);
+        return fundo;
+    }
+
+    private Rectangle criarPreenchimentoBarraInicial() {
+        Rectangle preenchimento = new Rectangle(LARGURA_TOTAL / 2, ALTURA_TOTAL);
+        preenchimento.setFill(Color.web(COR_MEDIA_VIDA));
+        preenchimento.setArcWidth(RAIO_ARCO);
+        preenchimento.setArcHeight(RAIO_ARCO);
+        StackPane.setAlignment(preenchimento, Pos.CENTER_LEFT);
+        return preenchimento;
     }
 
     private ImageView criarIcone(String caminho) {
         Image img = new Image(Objects.requireNonNull(getClass().getResource(caminho)).toExternalForm());
         ImageView icone = new ImageView(img);
-        icone.setFitHeight(40);
-        icone.setFitWidth(40);
+        icone.setFitHeight(TAMANHO_ICONE);
+        icone.setFitWidth(TAMANHO_ICONE);
         return icone;
     }
 
-
     public void atualizar(double porcentagem, Lorde lorde) {
-        porcentagem = Math.max(0, Math.min(1, porcentagem));
-        preenchimento.setWidth(LARGURA_TOTAL * porcentagem);
+        double porcentagemValidada = Math.max(0, Math.min(1, porcentagem));
+        preenchimentoBarra.setWidth(LARGURA_TOTAL * porcentagemValidada);
 
-        if (porcentagem > 0.60) {
-            preenchimento.setFill(Color.LIMEGREEN);
+        if (porcentagemValidada > 0.6) {
+            preenchimentoBarra.setFill(Color.web(COR_ALTA_VIDA));
             if (lorde != null) {
                 lorde.ficarComRaiva();
             }
-        } else if (porcentagem < 0.40) {
-            preenchimento.setFill(Color.RED);
+        } else if (porcentagemValidada < 0.4) {
+            preenchimentoBarra.setFill(Color.web(COR_BAIXA_VIDA));
             if (lorde != null) {
                 lorde.ficarFeliz();
             }
         } else {
-            preenchimento.setFill(Color.YELLOW);
+            preenchimentoBarra.setFill(Color.web(COR_MEDIA_VIDA));
             if (lorde != null) {
                 lorde.ficarPensativo();
             }
         }
     }
-
 }

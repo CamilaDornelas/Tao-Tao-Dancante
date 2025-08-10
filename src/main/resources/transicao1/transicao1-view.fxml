@@ -20,13 +20,13 @@
 
         <Button fx:id="voltarMenu" layoutX="937.0" layoutY="526.0"
                 mnemonicParsing="false"
-                onAction="#voltarMenu"
+                onAction="#aoPressionarVoltarMenu"
                 prefHeight="107.0" prefWidth="107.0"
                 styleClass="transparent-button" />
 
         <Button fx:id="comecarJogo" layoutX="1063.0" layoutY="526.0"
                 mnemonicParsing="false"
-                onAction="#comecarJogo"
+                onAction="#aoPressionarComecarJogo"
                 prefHeight="107.0" prefWidth="107.0"
                 styleClass="transparent-button" />
     </children>

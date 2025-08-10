@@ -4,87 +4,88 @@ import jogo.modelo.enume.TipoPersonagem;
 import jogo.excecoes.VidaInsuficienteException;
 import jogo.excecoes.PersonagemInvalidoException;
 
-/**
- * Classe que estende sua classe Personagem original e adiciona lógica de jogo.
- * Combina funcionalidades visuais (JavaFX) com lógica de gameplay (POO).
- */
+
 public abstract class PersonagemJogo extends Personagem {
-    
-    // Atributos para lógica de jogo (POO)
-    protected String nome;
-    protected TipoPersonagem tipo;
+
+    private static final int VIDAS_INICIAIS = 3;
+    private static final double MULTIPLICADOR_INICIAL = 1.0;
+
+    protected final String nome;
+    protected final TipoPersonagem tipo;
     protected int pontuacao;
     protected int vidas;
-    protected boolean ativo;
+    protected boolean estaAtivo;
     protected double multiplicadorPontos;
-    
-    public PersonagemJogo(String nome, TipoPersonagem tipo, double width, double height) throws PersonagemInvalidoException {
-        super(width, height); // Chama construtor da sua classe original
-        
-        // Validações com exceções
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new PersonagemInvalidoException("Nome não pode ser vazio", tipo.toString(), "Nome inválido");
-        }
-        if (tipo == null) {
-            throw new PersonagemInvalidoException("Tipo não pode ser nulo", "DESCONHECIDO", "Tipo nulo");
-        }
-        if (width <= 0 || height <= 0) {
-            throw new PersonagemInvalidoException("Dimensões devem ser positivas", tipo.toString(), "Dimensões inválidas");
-        }
-        
+
+
+    public PersonagemJogo(String nome, TipoPersonagem tipo, double largura, double altura) throws PersonagemInvalidoException {
+        super(largura, altura);
+
+        validarParametros(nome, tipo, largura, altura);
+
         this.nome = nome;
         this.tipo = tipo;
         this.pontuacao = 0;
-        this.vidas = 3;
-        this.ativo = true;
-        this.multiplicadorPontos = 1.0;
+        this.vidas = VIDAS_INICIAIS;
+        this.estaAtivo = true;
+        this.multiplicadorPontos = MULTIPLICADOR_INICIAL;
     }
-    
-    // Métodos abstratos (para POO)
+
+    private void validarParametros(String nome, TipoPersonagem tipo, double largura, double altura) throws PersonagemInvalidoException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new PersonagemInvalidoException("Nome não pode ser vazio.", tipo != null ? tipo.toString() : "DESCONHECIDO", "Nome inválido");
+        }
+        if (tipo == null) {
+            throw new PersonagemInvalidoException("Tipo não pode ser nulo.", nome, "Tipo nulo");
+        }
+        if (largura <= 0 || altura <= 0) {
+            throw new PersonagemInvalidoException("Dimensões (largura e altura) devem ser positivas.", tipo.toString(), "Dimensões inválidas");
+        }
+    }
+
     public abstract void executarMovimento();
     public abstract void usarHabilidadeEspecial();
     public abstract String obterDescricao();
-    
-    // Métodos de lógica de jogo
+
+
     public void adicionarPontos(int pontos) {
         if (pontos > 0) {
             this.pontuacao += (int) (pontos * multiplicadorPontos);
         }
     }
-    
+
+
     public boolean perderVida() throws VidaInsuficienteException {
         if (this.vidas <= 0) {
-            throw new VidaInsuficienteException("Personagem já morreu", 0, "perder vida");
+            this.estaAtivo = false;
+            throw new VidaInsuficienteException("Personagem já morreu.", 0, "perder vida");
         }
-        
+
         this.vidas--;
         if (this.vidas <= 0) {
-            this.ativo = false;
+            this.estaAtivo = false;
             return false;
         }
         return true;
     }
-    
-    /**
-     * Método para usar habilidade que requer vida
-     */
+
+
     public void usarHabilidadeComVida(String habilidade) throws VidaInsuficienteException {
         if (this.vidas <= 1) {
-            throw new VidaInsuficienteException("Vida insuficiente para usar habilidade", this.vidas, habilidade);
+            throw new VidaInsuficienteException("Vida insuficiente para usar habilidade.", this.vidas, habilidade);
         }
-        // Usar habilidade custaria 1 vida
         this.vidas--;
     }
-    
-    // Getters e Setters
+
     public String getNome() { return nome; }
     public TipoPersonagem getTipo() { return tipo; }
     public int getPontuacao() { return pontuacao; }
     public int getVidas() { return vidas; }
-    public boolean isAtivo() { return ativo; }
+    public boolean isAtivo() { return estaAtivo; }
     public double getMultiplicadorPontos() { return multiplicadorPontos; }
-    
+
+
     protected void setMultiplicadorPontos(double multiplicador) {
-        this.multiplicadorPontos = Math.max(1.0, multiplicador);
+        this.multiplicadorPontos = Math.max(MULTIPLICADOR_INICIAL, multiplicador);
     }
 }

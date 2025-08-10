@@ -15,7 +15,7 @@
         </ImageView>
 
 
-        <Button fx:id="menuVoltar" layoutX="63.0" layoutY="682.0" mnemonicParsing="false" onAction="#menuVoltar" prefHeight="81.0" prefWidth="137.0" styleClass="transparent-button" />
+        <Button fx:id="menuVoltar" layoutX="63.0" layoutY="682.0" mnemonicParsing="false" onAction="#aoPressionarVoltarMenu" prefHeight="81.0" prefWidth="137.0" styleClass="transparent-button" />
 
 
     </children>

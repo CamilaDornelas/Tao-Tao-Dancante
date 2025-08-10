@@ -11,174 +11,136 @@ import javafx.scene.shape.Rectangle;
 import jogo.servicos.GerenciadorPersistenciaVolume;
 import java.util.Objects;
 
-/**
- * Componente de controle de volume com barra interativa
- * Salva configurações usando o sistema de persistência
- */
+
 public class ControleVolume extends StackPane {
 
-    private final double LARGURA_TOTAL = 150;
-    private final double ALTURA_TOTAL = 20;
+    private static final double LARGURA_TOTAL = 150.0;
+    private static final double ALTURA_TOTAL = 20.0;
+    private static final double ALTURA_ICONE = 35.0;
+    private static final double LARGURA_ICONE = 35.0;
+    private static final double INCREMENTO_VOLUME = 0.1;
+    private static final double VOLUME_MAXIMO = 1.0;
+    private static final double VOLUME_MINIMO = 0.0;
 
-    private Rectangle fundo;
-    private Rectangle preenchimento;
+    private static final String COR_FUNDO_BARRA = "#F6FF9E";
+    private static final String COR_PREENCHIMENTO_BARRA = "#93481A";
+
+    private Rectangle fundoBarra;
+    private Rectangle preenchimentoBarra;
     private ImageView iconeVolume;
-    private MediaPlayer mediaPlayer;
-    private double volumeAtual = 1.0;
-    
+    private MediaPlayer reprodutorMidia;
+    private double volumeAtual;
+
     private final GerenciadorPersistenciaVolume persistencia;
+
 
     public ControleVolume() {
         this.persistencia = new GerenciadorPersistenciaVolume();
-        
+
         this.volumeAtual = persistencia.carregarVolume();
-        
-        inicializarComponentes();
-        configurarEventos();
-        
-        System.out.println("🎵 Controle de volume criado! Volume atual: " + (int)(volumeAtual * 100) + "%");
+
+        inicializarInterface();
+        configurarEventosInterativos();
+
+        System.out.println("Controle de volume criado! Volume atual: " + (int)(volumeAtual * 100) + "%");
     }
 
-    private void inicializarComponentes() {
-        fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
-        fundo.setFill(Color.web("#F6FF9E"));
+
+    private void inicializarInterface() {
+        fundoBarra = criarFundoBarra();
+        preenchimentoBarra = criarPreenchimentoBarra();
+        iconeVolume = criarIconeVolume();
+
+        HBox layoutPrincipal = new HBox(0);
+        layoutPrincipal.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane barraVolume = new StackPane();
+        barraVolume.getChildren().addAll(fundoBarra, preenchimentoBarra);
+
+        layoutPrincipal.getChildren().addAll(iconeVolume, barraVolume);
+
+        this.getChildren().add(layoutPrincipal);
+    }
+
+
+    private Rectangle criarFundoBarra() {
+        Rectangle fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
+        fundo.setFill(Color.web(COR_FUNDO_BARRA));
         fundo.setStroke(Color.DARKGRAY);
         fundo.setStrokeWidth(1);
-
-  
-        preenchimento = new Rectangle(LARGURA_TOTAL * volumeAtual, ALTURA_TOTAL);
-        preenchimento.setFill(Color.web("#93481A"));
-        StackPane.setAlignment(preenchimento, Pos.CENTER_LEFT);
-
-        iconeVolume = criarIconeVolume();
-        
-        HBox layout = new HBox(0);
-        layout.setAlignment(Pos.CENTER_LEFT);
-        
-        StackPane barraVolume = new StackPane();
-        barraVolume.getChildren().addAll(fundo, preenchimento);
-        
-        layout.getChildren().addAll(iconeVolume, barraVolume);
-        this.getChildren().add(layout);
+        return fundo;
     }
+
+
+    private Rectangle criarPreenchimentoBarra() {
+        Rectangle preenchimento = new Rectangle(LARGURA_TOTAL * volumeAtual, ALTURA_TOTAL);
+        preenchimento.setFill(Color.web(COR_PREENCHIMENTO_BARRA));
+        StackPane.setAlignment(preenchimento, Pos.CENTER_LEFT);
+        return preenchimento;
+    }
+
 
     private ImageView criarIconeVolume() {
-        String caminhoIcone = obterCaminhoIcone(); 
-        
-        try {
-            Image img = new Image(Objects.requireNonNull(getClass().getResource(caminhoIcone)).toExternalForm());
-            ImageView icone = new ImageView(img);
-            icone.setFitHeight(35);
-            icone.setFitWidth(35);
-            
-        
-            icone.setOnMouseClicked(event -> {
-                event.consume(); 
-                toggleVolumeComImagem();
-            });
-            
-            return icone;
-        } catch (Exception e) {
+        ImageView icone = new ImageView();
+        icone.setFitHeight(ALTURA_ICONE);
+        icone.setFitWidth(LARGURA_ICONE);
+        atualizarImagemIconeVolume();
 
-            ImageView icone = new ImageView();
-            icone.setFitHeight(35);
-            icone.setFitWidth(35);
-            icone.setOnMouseClicked(event -> {
-                event.consume();
-                toggleVolumeComImagem();
-            });
-            return icone;
-        }
-    }
-
-    /**
-     * Escolhe a imagem baseada no volume atual
-     */
-    private String obterCaminhoIcone() {
-        if (volumeAtual < 0.01) { 
-            return "/assets/volume/semVolume.png";
-        } else if (volumeAtual <= 0.5) {
-            return "/assets/volume/volumeMetade.png";
-        } else {
-            return "/assets/volume/volume.png";
-        }
-    }
-
-    /**
-     * Alterna volume ao clicar na imagem
-     * volume/volumeMetade → sem volume (0%)
-     * semVolume → volume máximo (100%)
-     */
-    private void toggleVolumeComImagem() {
-        if (volumeAtual < 0.01) { 
-            setVolume(1.0); // 100%
-            System.out.println("🔊 Volume ativado: 100%");
-        } else {
-            setVolume(0.0); // 0%
-            System.out.println("🔇 Volume desativado: 0%");
-        }
-    }
-
-    private void configurarEventos() {
-
-        this.setOnMouseClicked(event -> {
-            double posicaoX = event.getX();
-            double novoVolume = Math.max(0, Math.min(1, posicaoX / LARGURA_TOTAL));
-            setVolume(novoVolume);
+        icone.setOnMouseClicked(event -> {
+            event.consume(); // Impede que o clique se propague para a barra
+            alternarMudo();
         });
-        
+
+        return icone;
+    }
+
+
+    private void configurarEventosInterativos() {
+        this.setOnMouseClicked(event -> {
+            ajustarVolumePelaPosicao(event.getX());
+        });
 
         this.setOnMouseDragged(event -> {
-            double posicaoX = event.getX();
-            double novoVolume = Math.max(0, Math.min(1, posicaoX / LARGURA_TOTAL));
-            setVolume(novoVolume);
+            ajustarVolumePelaPosicao(event.getX());
         });
     }
 
-    /**
-     * Define o MediaPlayer para controlar o volume
-     */
-    public void setMediaPlayer(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-        if (mediaPlayer != null) {
-            mediaPlayer.setVolume(volumeAtual);
+
+    private void ajustarVolumePelaPosicao(double posicaoX) {
+        double novoVolume = Math.max(VOLUME_MINIMO, Math.min(VOLUME_MAXIMO, posicaoX / LARGURA_TOTAL));
+        definirVolume(novoVolume);
+    }
+
+
+    public void setReprodutorMidia(MediaPlayer reprodutorMidia) {
+        this.reprodutorMidia = reprodutorMidia;
+        if (this.reprodutorMidia != null) {
+            this.reprodutorMidia.setVolume(volumeAtual);
         }
     }
 
-    /**
-     * Ajusta o volume (0.0 a 1.0)
-     */
-    public void setVolume(double volume) {
-        volume = Math.max(0, Math.min(1, volume));
-        this.volumeAtual = volume;
-        
-   
+
+    public void definirVolume(double volume) {
+        this.volumeAtual = Math.max(VOLUME_MINIMO, Math.min(VOLUME_MAXIMO, volume));
+
         atualizarVisual();
-   
-        if (mediaPlayer != null) {
-            mediaPlayer.setVolume(volume);
+
+        if (reprodutorMidia != null) {
+            reprodutorMidia.setVolume(this.volumeAtual);
         }
-        
-   
-        persistencia.salvarVolume(volume);
-        
-        System.out.println("🔊 Volume ajustado para: " + (int)(volume * 100) + "%");
+        persistencia.salvarVolume(this.volumeAtual);
+
+        System.out.println("🔊 Volume ajustado para: " + (int)(this.volumeAtual * 100) + "%");
     }
+
 
     private void atualizarVisual() {
-     
-        preenchimento.setWidth(LARGURA_TOTAL * volumeAtual);
-
-        preenchimento.setFill(Color.web("#93481A"));
-        atualizarIconeVolume();
+        preenchimentoBarra.setWidth(LARGURA_TOTAL * volumeAtual);
+        atualizarImagemIconeVolume();
     }
 
-    /**
-     *  Atualiza a imagem do ícone baseada no volume atual
-     */
-    private void atualizarIconeVolume() {
+    private void atualizarImagemIconeVolume() {
         String novoCaminho = obterCaminhoIcone();
-        
         try {
             Image novaImg = new Image(Objects.requireNonNull(getClass().getResource(novoCaminho)).toExternalForm());
             iconeVolume.setImage(novaImg);
@@ -187,35 +149,38 @@ public class ControleVolume extends StackPane {
         }
     }
 
-    /**
-     * Obtém o volume atual (0.0 a 1.0)
-     */
+
+    private String obterCaminhoIcone() {
+        if (volumeAtual < 0.01) {
+            return "/assets/volume/semVolume.png";
+        } else if (volumeAtual <= 0.5) {
+            return "/assets/volume/volumeMetade.png";
+        } else {
+            return "/assets/volume/volume.png";
+        }
+    }
+
+
     public double getVolume() {
         return volumeAtual;
     }
 
-    /**
-     * Aumenta o volume em 10%
-     */
+
     public void aumentarVolume() {
-        setVolume(volumeAtual + 0.1);
+        definirVolume(volumeAtual + INCREMENTO_VOLUME);
     }
 
-    /**
-     * Diminui o volume em 10%
-     */
+
     public void diminuirVolume() {
-        setVolume(volumeAtual - 0.1);
+        definirVolume(volumeAtual - INCREMENTO_VOLUME);
     }
 
-    /**
-     * Silencia/reativa o som
-     */
-    public void toggleMute() {
-        if (volumeAtual > 0) {
-            setVolume(0);
+
+    public void alternarMudo() {
+        if (volumeAtual > VOLUME_MINIMO) {
+            definirVolume(VOLUME_MINIMO);
         } else {
-            setVolume(1.0);
+            definirVolume(VOLUME_MAXIMO);
         }
     }
 }
