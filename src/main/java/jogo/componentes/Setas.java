@@ -112,4 +112,18 @@ public class Setas extends ImageView {
     public ParallelTransition getRiseAnimation() {
         return riseAnimation;
     }
+     
+    public void aplicarEfeitoBrilho() {
+    
+        this.setStyle("-fx-effect: dropshadow(gaussian, gold, 5, 0.4, 0, 0);");
+        
+        FadeTransition flash = new FadeTransition();
+        flash.setNode(this);
+        flash.setDuration(Duration.seconds(0.15));
+        flash.setFromValue(1.0);
+        flash.setToValue(1.1);
+        flash.setCycleCount(1);
+        flash.setAutoReverse(false);
+        flash.play();
+    }
 }

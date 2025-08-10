@@ -76,6 +76,7 @@ public class GestorDePause implements Pause {
 
                 PauseController pauseController = pause.getController();
                 pauseController.setGestorDePause(this);
+                pauseController.setMediaPlayer(audio); // ✨ NOVO: Passa o MediaPlayer para o controle de volume
 
                 rootPane.getChildren().add(telaPause);
                 pausado = true;

@@ -29,13 +29,13 @@ public class Transicao1Controller {
     @FXML
     private void comecarJogo(ActionEvent event) {
         try {
-            FXMLLoader fase1 = new FXMLLoader(getClass().getResource("/fases/fase-view.fxml"));
-            Parent root = fase1.load();
-
+            
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException erro) {
+            FaseController faseController = new FaseController();
+            faseController.carregarFase(stage, 1); // Carrega fase 1
+            
+        } catch (Exception erro) {
+            System.err.println("❌ Erro ao carregar fase: " + erro.getMessage());
             erro.printStackTrace();
         }
     }

@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import jogo.componentes.PlacarDeVida;
-import jogo.personagens.BardoDanca;
+import jogo.personagens.Bardo;
 import jogo.personagens.Lorde;
 import jogo.servicos.GerenciadorSetas;
 import jogo.servicos.GestorDePause;
@@ -28,7 +28,7 @@ public abstract class FaseBase {
     protected Rectangle hitZone;
     protected PlacarDeVida placarDeVida;
     protected Lorde lorde;
-    protected BardoDanca bardo;
+    protected Bardo bardo;
     protected GerenciadorSetas gerenciadorDeSetas;
     protected GestorDePause gestorDePause;
 
@@ -116,7 +116,8 @@ public abstract class FaseBase {
 
         pontuacao += acerto ? GANHO_POR_ACERTO : -PENALIDADE_POR_ERRO;
         pontuacao = Math.max(0.0, Math.min(1.0, pontuacao));
-        placarDeVida.atualizar(pontuacao, null);
+        
+        placarDeVida.atualizar(pontuacao, lorde);
 
         if (pontuacao <= 0) {
             mostrarTelaFinal(false);

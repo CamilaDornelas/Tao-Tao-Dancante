@@ -1,0 +1,33 @@
+{
+  "numeroFase": 3,
+  "nomeFase": "Em desenvolvimento",
+  "dificuldade": "DIFÍCIL",
+  "pesoPontuacao": 1.0,
+  "configuracoesTempo": {
+    "duracaoSetasInicial": 0.0,
+    "duracaoSetasFinal": 0.0,
+    "tempoAceleracao": 0.0,
+    "tempoAceleracaoMaxima": 0.0
+  },
+  "assets": {
+    "caminhoMusica": "",
+    "imagemBardo": "",
+    "imagemLorde": "",
+    "imagemBackground": ""
+  },
+  "sequenciaSetas": [],
+  "estatisticas": {
+    "totalSetas": 0,
+    "setasCima": 0,
+    "setasBaixo": 0,
+    "setasEsquerda": 0,
+    "setasDireita": 0
+  },
+  "metadados": {
+    "versao": "1.0",
+    "dataCriacao": "2025-08-09T20:17:00",
+    "hashVerificacao": "fase3_placeholder",
+    "naoReutilizar": true,
+    "observacoes": "Placeholder - Fase 3 ainda não implementada"
+  }
+}

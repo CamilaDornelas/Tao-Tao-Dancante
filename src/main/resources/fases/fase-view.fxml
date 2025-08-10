@@ -7,14 +7,11 @@
 <AnchorPane prefHeight="804.0" prefWidth="1236.0"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="jogo.fases.Fase1"
             fx:id="telaFase">
 
     <children>
         <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false" fx:id="background">
-            <image>
-                <Image url="@../assets/imagens/fase1.png" />
-            </image>
+            <!-- Imagem será definida dinamicamente pelo controller -->
         </ImageView>
     </children>
 

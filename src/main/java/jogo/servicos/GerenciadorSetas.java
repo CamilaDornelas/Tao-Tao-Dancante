@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import jogo.componentes.PlacarDeVida;
 import jogo.componentes.Setas;
 
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.lang.Runnable;
@@ -36,6 +37,12 @@ public class GerenciadorSetas {
 
     private boolean jogoTerminou = false;
     private boolean jogoPausado = false;
+    
+    // ✨ NOVA: Sequência de setas única da fase (vem do JSON)
+    private int[] sequenciaSetasFase;
+
+    // ✨ NOVO: Configurações de tempo vindas do JSON
+    private LeitorJSONSimples.ConfiguracoesTempo configTempo;
 
 
     public void setJogoPausado(boolean jogoPausado) {
@@ -80,6 +87,23 @@ public class GerenciadorSetas {
         this.missAction = missAction;
     }
 
+    // ✨ NOVO: Define a sequência de setas única da fase
+    public void setSequenciaSetasFase(int[] sequencia) {
+        this.sequenciaSetasFase = sequencia;
+        this.indice = 0; // Reseta o índice quando muda a sequência
+    }
+    
+    // ✨ NOVO: Carrega dados diretamente do JSON para uma fase
+    public void carregarDadosDaFase(int numeroFase) {
+        System.out.println("📖 Carregando dados da fase " + numeroFase + " diretamente do JSON...");
+        
+        this.sequenciaSetasFase = LeitorJSONSimples.carregarSequenciaSetas(numeroFase);
+        this.configTempo = LeitorJSONSimples.carregarConfiguracoesTempo(numeroFase);
+        this.indice = 0;
+        
+        System.out.println("✅ Fase " + numeroFase + " carregada: " + sequenciaSetasFase.length + " setas");
+    }
+
 
     public GerenciadorSetas(AnchorPane tela, Rectangle hitZone, MediaPlayer audio, PlacarDeVida placar, Runnable aoFinalDaFase) {
         this.tela = tela;
@@ -120,13 +144,20 @@ public class GerenciadorSetas {
     public void setasSubindo() {
         if (jogoTerminou || jogoPausado) return;
 
+        // ✨ NOVA: Usa sequência de setas única da fase (do JSON)
+        if (sequenciaSetasFase == null || sequenciaSetasFase.length == 0) {
+            System.out.println("⚠️ Nenhuma sequência de setas definida para esta fase!");
+            return;
+        }
 
-        int[] setas = { 0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1, 2, 0, 1, 3, 3, 2, 1, 0,
-                2, 2, 2, 3, 0, 3, 1, 0, 2, 1, 0, 1, 3, 0, 0, 1, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
-                3, 1, 2, 3, 0, 0, 2, 3, 3, 1, 2, 3, 0, 0, 0, 1, 1, 1, 2, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
-                2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3};
+        // Verificação para evitar ArrayIndexOutOfBoundsException
+        if (indice >= sequenciaSetasFase.length) {
+            System.out.println("🎵 Sequência de setas da fase concluída!");
+            return; // Para de criar setas
+        }
 
-        Setas.TipoSetas tipo = Setas.TipoSetas.values()[setas[indice++]];
+        // ✨ ATUALIZADO: Usa array da sequência única da fase
+        Setas.TipoSetas tipo = Setas.TipoSetas.values()[sequenciaSetasFase[indice++]];
         Setas novaSeta = new Setas(tipo, arrowWidth, arrowHeight, this::setaMissed);
 
         double posX = switch (tipo) {
@@ -177,8 +208,18 @@ public class GerenciadorSetas {
                     System.out.println("Acerto: " + tipo);
                     atualizadorDePontuacao.accept(true);
                     acertou = true;
-                    seta.esconder();
-                    tela.getChildren().remove(seta);
+                    
+                    // ✨ CORRIGIDO: Primeiro brilha, DEPOIS some (com delay pequeno)
+                    seta.aplicarEfeitoBrilho();
+                    
+                    // Delay pequeno para ver o brilho
+                    PauseTransition delay = new PauseTransition(Duration.seconds(0.15));
+                    delay.setOnFinished(event -> {
+                        seta.esconder();
+                        tela.getChildren().remove(seta);
+                    });
+                    delay.play();
+                    
                     iterator.remove();
                     break;
                 }
