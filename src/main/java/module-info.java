@@ -3,13 +3,20 @@ module demo {
     requires javafx.fxml;
     requires javafx.media;
     requires java.desktop;
+    requires java.prefs; // ✨ NOVO: Para salvar configurações no SO
 
-    opens jogo to javafx.fxml;
-    exports jogo;
-
-    opens transicao1 to javafx.fxml;
     exports jogo.controllers;
-    opens jogo.controllers to javafx.fxml;
+    exports jogo.fases;
+    exports jogo.personagens;
+    exports jogo.interfaces;
+    exports jogo.componentes;
+    exports jogo.servicos;
+    exports jogo.modelo.enume;
+    exports jogo.excecoes;
+    exports principal;
 
+    opens jogo.controllers to javafx.fxml;
     opens jogo.fases to javafx.fxml;
+    opens jogo.personagens to javafx.fxml;
+    opens principal to javafx.fxml;
 }

@@ -1,0 +1,38 @@
+{
+  "numeroFase": 1,
+  "nomeFase": "Despertar do Bardo",
+  "dificuldade": "FÁCIL",
+  "pesoPontuacao": 1.0,
+  "configuracoesTempo": {
+    "duracaoSetasInicial": 6000.0,
+    "duracaoSetasFinal": 3000.0,
+    "tempoAceleracao": 28000.0,
+    "tempoAceleracaoMaxima": 74000.0
+  },
+  "assets": {
+    "caminhoMusica": "/assets/musica/song1.mp3",
+    "imagemBardo": "/assets/persona/bardoDance1.png",
+    "imagemLorde": "/assets/persona/lordBarra.png",
+    "imagemBackground": "/assets/imagens/fase1.png"
+  },
+  "sequenciaSetas": [
+    0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1, 2, 0, 1, 3, 3, 2, 1, 0,
+    2, 2, 2, 3, 0, 3, 1, 0, 2, 1, 0, 1, 3, 0, 0, 1, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
+    3, 1, 2, 3, 0, 0, 2, 3, 3, 1, 2, 3, 0, 0, 0, 1, 1, 1, 2, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
+    2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3
+  ],
+  "estatisticas": {
+    "totalSetas": 115,
+    "setasCima": 29,
+    "setasBaixo": 29,
+    "setasEsquerda": 29,
+    "setasDireita": 28
+  },
+  "metadados": {
+    "versao": "1.0",
+    "dataCriacao": "2025-08-09T19:30:00",
+    "hashVerificacao": "fase1_hash_123456",
+    "naoReutilizar": true,
+    "observacoes": "Dados únicos da Fase 1 - NÃO PODEM ser copiados para outras fases"
+  }
+}

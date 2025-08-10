@@ -1,4 +1,4 @@
-package jogo;
+package principal;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Application;

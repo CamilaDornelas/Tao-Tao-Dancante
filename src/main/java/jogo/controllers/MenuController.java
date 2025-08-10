@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.application.Platform;
-import jogo.MainApplication;
+import principal.MainApplication;
 
 public class MenuController {
 
