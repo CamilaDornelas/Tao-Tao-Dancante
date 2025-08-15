@@ -1,7 +1,7 @@
 package jogo.controllers;
 
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,32 +10,36 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
 public class Transicao1Controller {
 
-    @FXML
-    private void voltarMenu(ActionEvent event) {
-        try {
-            FXMLLoader menu = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
-            Parent root = menu.load();
+    private static final String CAMINHO_MENU_PRINCIPAL = "/menu/menu-principal-view.fxml";
+    private static final int NUMERO_FASE_INICIAL = 1;
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+    @FXML
+    private void aoPressionarVoltarMenu(ActionEvent evento) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(CAMINHO_MENU_PRINCIPAL));
+            Parent root = fxmlLoader.load();
+
+            Scene cena = new Scene(root);
+            Stage palco = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+            palco.setScene(cena);
+            palco.show();
         } catch (IOException erro) {
+            System.err.println("❌ Erro ao carregar a tela do menu principal: " + erro.getMessage());
             erro.printStackTrace();
         }
     }
+
     @FXML
-    private void comecarJogo(ActionEvent event) {
+    private void aoPressionarComecarJogo(ActionEvent evento) {
         try {
-            
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage palco = (Stage) ((Node) evento.getSource()).getScene().getWindow();
             FaseController faseController = new FaseController();
-            faseController.carregarFase(stage, 1); // Carrega fase 1
-            
+            faseController.carregarFase(palco, NUMERO_FASE_INICIAL);
         } catch (Exception erro) {
-            System.err.println("❌ Erro ao carregar fase: " + erro.getMessage());
+            System.err.println("❌ Erro ao carregar a fase " + NUMERO_FASE_INICIAL + ": " + erro.getMessage());
             erro.printStackTrace();
         }
     }

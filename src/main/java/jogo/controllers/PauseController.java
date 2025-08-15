@@ -13,9 +13,16 @@ import java.util.ResourceBundle;
 
 public class PauseController implements Initializable {
 
+    private static final double POSICAO_ESQUERDA_CONTROLE_VOLUME = 20.0;
+    private static final double POSICAO_INFERIOR_CONTROLE_VOLUME = 20.0;
+
     private GestorDePause gestorDePause;
-    private ControleVolume controleVolume; // ✨ NOVO: Controle de volume
-    private MediaPlayer mediaPlayer; // ✨ NOVO: Referência ao áudio
+    private ControleVolume controleVolume;
+    private MediaPlayer reprodutorMidia;
+
+    @FXML
+    private AnchorPane telaPause;
+
 
     public void setGestorDePause(GestorDePause gestorDePause) {
         this.gestorDePause = gestorDePause;
@@ -24,14 +31,13 @@ public class PauseController implements Initializable {
     /**
      * ✨ NOVO: Define o MediaPlayer para controle de volume
      */
-    public void setMediaPlayer(MediaPlayer mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
-        
-        System.out.println("🎵 setMediaPlayer chamado!");
-        
-        // Se o controle já foi criado no initialize(), conectar agora
+    public void setReprodutorMidia(MediaPlayer reprodutorMidia) {
+        this.reprodutorMidia = reprodutorMidia;
+
+        System.out.println("🎵 setReprodutorMidia chamado!");
+
         if (controleVolume != null) {
-            controleVolume.setMediaPlayer(mediaPlayer);
+            controleVolume.setReprodutorMidia(reprodutorMidia);
             System.out.println("🔗 MediaPlayer conectado ao controle de volume");
         }
     }
@@ -40,30 +46,32 @@ public class PauseController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("🎵 PauseController initialize() chamado!");
         System.out.println("🎵 telaPause é null? " + (telaPause == null));
-        
+
         if (telaPause != null) {
-            // Criar controle de volume
-            controleVolume = new ControleVolume();
-            
-            // Posicionar no canto inferior esquerdo da tela de pause
-            AnchorPane.setLeftAnchor(controleVolume, 20.0);
-            AnchorPane.setBottomAnchor(controleVolume, 20.0);
-            
-            // Adicionar à tela de pause
-            telaPause.getChildren().add(controleVolume);
-            
-            System.out.println("🎵 Controle de volume adicionado à tela de pause no initialize()");
-            
-            // Se já temos MediaPlayer, conectar agora
-            if (mediaPlayer != null) {
-                controleVolume.setMediaPlayer(mediaPlayer);
-                System.out.println("🔗 MediaPlayer conectado ao controle de volume no initialize()");
-            }
+            criarEAdicionarControleVolume();
+            conectarReprodutorMidiaSeDisponivel();
         }
     }
 
-    @FXML
-    private AnchorPane telaPause; // ✨ CORRECTED: Nome deve coincidir com fx:id no FXML
+
+    private void criarEAdicionarControleVolume() {
+        controleVolume = new ControleVolume();
+
+        AnchorPane.setLeftAnchor(controleVolume, POSICAO_ESQUERDA_CONTROLE_VOLUME);
+        AnchorPane.setBottomAnchor(controleVolume, POSICAO_INFERIOR_CONTROLE_VOLUME);
+
+        telaPause.getChildren().add(controleVolume);
+
+        System.out.println("🎵 Controle de volume adicionado à tela de pause no initialize()");
+    }
+
+
+    private void conectarReprodutorMidiaSeDisponivel() {
+        if (reprodutorMidia != null) {
+            controleVolume.setReprodutorMidia(reprodutorMidia);
+            System.out.println("🔗 MediaPlayer conectado ao controle de volume no initialize()");
+        }
+    }
 
     @FXML
     private void voltarAoJogo() {
@@ -71,8 +79,8 @@ public class PauseController implements Initializable {
     }
 
     @FXML
-    private void voltarAoMenu(ActionEvent event) {
-        gestorDePause.voltarParaMenu(event);
+    private void voltarAoMenu(ActionEvent evento) {
+        gestorDePause.voltarParaMenu(evento);
     }
 
     @FXML

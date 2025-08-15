@@ -20,111 +20,154 @@ import jogo.interfaces.Pause;
 
 public class GestorDePause implements Pause {
 
-    // Instância única (Singleton)
-    private static GestorDePause instance;
+    private static GestorDePause instancia;
 
-    private final Pane rootPane;
+    private static final String CAMINHO_TELA_PAUSE = "/pause/pause-view.fxml";
+    private static final String CAMINHO_MENU_PRINCIPAL = "/menu/menu-principal-view.fxml";
+
+    private final Pane painelPrincipal;
     private AnchorPane telaPause;
-    private boolean pausado = false;
+    private boolean jogoPausado = false;
     private final Timeline animacoes;
-    private final MediaPlayer audio;
-    private final Runnable voltarSetas;
+    private final MediaPlayer reprodutorMidia;
+    private final Runnable acaoRetornarJogo;
     private final GerenciadorSetas gerenciadorSetas;
 
-    // Construtor privado (ninguém fora pode instanciar diretamente)
-    private GestorDePause(Pane rootPane, Timeline animacoes, MediaPlayer audio,
-                          List<Setas> activeArrows, Runnable resumeGameAction,
+    private GestorDePause(Pane painelPrincipal, Timeline animacoes, MediaPlayer reprodutorMidia,
+                          List<Setas> setasAtivas, Runnable acaoRetornarJogo,
                           GerenciadorSetas gerenciadorSetas) {
-        this.rootPane = rootPane;
+        this.painelPrincipal = painelPrincipal;
         this.animacoes = animacoes;
-        this.audio = audio;
-        this.voltarSetas = resumeGameAction;
+        this.reprodutorMidia = reprodutorMidia;
+        this.acaoRetornarJogo = acaoRetornarJogo;
         this.gerenciadorSetas = gerenciadorSetas;
     }
 
-    // Metodo para obter a instância única
-    public static GestorDePause getInstance(Pane rootPane, Timeline animacoes, MediaPlayer audio,
-                                            List<Setas> activeArrows, Runnable resumeGameAction,
+    public static GestorDePause getInstance(Pane painelPrincipal, Timeline animacoes, MediaPlayer reprodutorMidia,
+                                            List<Setas> setasAtivas, Runnable acaoRetornarJogo,
                                             GerenciadorSetas gerenciadorSetas) {
-        if (instance == null) {
-            instance = new GestorDePause(rootPane, animacoes, audio, activeArrows, resumeGameAction, gerenciadorSetas);
+        if (instancia == null) {
+            instancia = new GestorDePause(painelPrincipal, animacoes, reprodutorMidia, setasAtivas, acaoRetornarJogo, gerenciadorSetas);
         }
-        return instance;
+        return instancia;
     }
 
     @Override
     public void pause() {
-        if (!pausado) {
+        if (!jogoPausado) {
+            pausarAnimacoesEAudio();
+            pausarGerenciadorSetas();
+            pausarAnimacoesDasSetasAtivas();
+            exibirTelaDePause();
+            jogoPausado = true;
+        }
+    }
+
+    private void pausarAnimacoesEAudio() {
+        if (animacoes != null) {
             animacoes.pause();
-            audio.pause();
+        }
+        if (reprodutorMidia != null) {
+            reprodutorMidia.pause();
+        }
+    }
 
-            if (gerenciadorSetas != null) {
-                gerenciadorSetas.pauseSpawn();
-                gerenciadorSetas.setJogoPausado(true);
-            }
+    private void pausarGerenciadorSetas() {
+        if (gerenciadorSetas != null) {
+            gerenciadorSetas.pauseSpawn();
+            gerenciadorSetas.setJogoPausado(true);
+        }
+    }
 
-            for (Setas arrow : gerenciadorSetas.getSetasAtivas()) {
-                ParallelTransition riseAnimation = arrow.getRiseAnimation();
-                if (riseAnimation != null && riseAnimation.getStatus() == Animation.Status.RUNNING) {
-                    riseAnimation.pause();
+    private void pausarAnimacoesDasSetasAtivas() {
+        if (gerenciadorSetas != null && gerenciadorSetas.getSetasAtivas() != null) {
+            for (Setas seta : gerenciadorSetas.getSetasAtivas()) {
+                ParallelTransition animacaoSubida = seta.getAnimacaoSubida();
+                if (animacaoSubida != null && animacaoSubida.getStatus() == Animation.Status.RUNNING) {
+                    animacaoSubida.pause();
                 }
             }
+        }
+    }
 
-            try {
-                FXMLLoader pause = new FXMLLoader(getClass().getResource("/pause/pause-view.fxml"));
-                telaPause = pause.load();
+    private void exibirTelaDePause() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(CAMINHO_TELA_PAUSE));
+            telaPause = fxmlLoader.load();
 
-                PauseController pauseController = pause.getController();
-                pauseController.setGestorDePause(this);
-                pauseController.setMediaPlayer(audio); // ✨ NOVO: Passa o MediaPlayer para o controle de volume
+            PauseController pauseController = fxmlLoader.getController();
+            pauseController.setGestorDePause(this);
+            pauseController.setReprodutorMidia(reprodutorMidia);
 
-                rootPane.getChildren().add(telaPause);
-                pausado = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            painelPrincipal.getChildren().add(telaPause);
+        } catch (IOException e) {
+            System.err.println("❌ Erro ao carregar a tela de pause: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
     public void voltar() {
-        if (!pausado) return;
+        if (!jogoPausado) return;
 
-        animacoes.play();
-        audio.play();
+        retomarAnimacoesEAudio();
+        retomarGerenciadorSetas();
+        retomarAnimacoesDasSetasAtivas();
+        removerTelaDePause();
 
+        jogoPausado = false;
+        painelPrincipal.requestFocus();
+    }
+
+    private void retomarAnimacoesEAudio() {
+        if (animacoes != null) {
+            animacoes.play();
+        }
+        if (reprodutorMidia != null) {
+            reprodutorMidia.play();
+        }
+    }
+
+    private void retomarGerenciadorSetas() {
         if (gerenciadorSetas != null) {
             gerenciadorSetas.resumeSpawn();
             gerenciadorSetas.setJogoPausado(false);
         }
+    }
 
-        for (Setas arrow : gerenciadorSetas.getSetasAtivas()) {
-            ParallelTransition riseAnimation = arrow.getRiseAnimation();
-            if (riseAnimation != null && riseAnimation.getStatus() == Animation.Status.PAUSED) {
-                riseAnimation.play();
+    private void retomarAnimacoesDasSetasAtivas() {
+        if (gerenciadorSetas != null && gerenciadorSetas.getSetasAtivas() != null) {
+            for (Setas seta : gerenciadorSetas.getSetasAtivas()) {
+                ParallelTransition animacaoSubida = seta.getAnimacaoSubida();
+                if (animacaoSubida != null && animacaoSubida.getStatus() == Animation.Status.PAUSED) {
+                    animacaoSubida.play();
+                }
             }
         }
+    }
 
-        rootPane.getChildren().remove(telaPause);
-        pausado = false;
-        rootPane.requestFocus();
+    private void removerTelaDePause() {
+        if (telaPause != null) {
+            painelPrincipal.getChildren().remove(telaPause);
+        }
     }
 
     @Override
     public boolean estaPausado() {
-        return pausado;
+        return jogoPausado;
     }
 
     @Override
-    public void voltarParaMenu(ActionEvent event) {
+    public void voltarParaMenu(ActionEvent evento) {
         try {
-            FXMLLoader menu = new FXMLLoader(getClass().getResource("/menu/menu-principal-view.fxml"));
-            Parent root = menu.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(CAMINHO_MENU_PRINCIPAL));
+            Parent root = fxmlLoader.load();
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage palco = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+            palco.setScene(new Scene(root));
+            palco.show();
         } catch (IOException erro) {
+            System.err.println("❌ Erro ao carregar a tela do menu principal: " + erro.getMessage());
             erro.printStackTrace();
         }
     }

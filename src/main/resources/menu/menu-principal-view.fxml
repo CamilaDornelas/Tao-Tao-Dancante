@@ -19,12 +19,12 @@
         </ImageView>
 
         <Button fx:id="comecarBotao" layoutX="778.0" layoutY="360.0"
-            onAction="#comecar"
+            onAction="#aoPressionarComecar"
             prefHeight="83.0" prefWidth="289.0"
             styleClass="transparent-button" />
 
         <Button fx:id="sairBotao" layoutX="839.0" layoutY="468.0"
-            onAction="#sairDoJogo"
+            onAction="#aoPressionarSair"
             prefHeight="71.0" prefWidth="171.0"
             styleClass="transparent-button" />
 

@@ -9,29 +9,19 @@ import principal.MainApplication;
 public class MenuController {
 
     @FXML
-    private Button comecarBotao;
+    private Button botaoComecar;
 
     @FXML
-    private Button sairBotao;
+    private Button botaoSair;
 
-//    @FXML
-//    private void comecar(ActionEvent event) {
-//        try {
-//            MainApplication.showTransicao1Screen();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
     @FXML
-    private void comecar(ActionEvent event) {
-        System.out.println("Começar clicado!");
-
+    private void aoPressionarComecar(ActionEvent evento) {
+        System.out.println("Botão Começar pressionado!");
         MainApplication.trocarTela("/transicao1/transicao1-view.fxml");
     }
 
-
     @FXML
-    private void sairDoJogo(ActionEvent event) {
+    private void aoPressionarSair(ActionEvent evento) {
         Platform.exit();
     }
 }

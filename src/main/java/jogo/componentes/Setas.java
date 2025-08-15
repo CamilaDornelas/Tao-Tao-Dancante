@@ -1,6 +1,5 @@
 package jogo.componentes;
 
-
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -12,9 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.lang.Runnable;
 
-
 public class Setas extends ImageView {
-
 
     public enum TipoSetas {
         UP("/assets/setas/cima.png"),
@@ -22,106 +19,95 @@ public class Setas extends ImageView {
         LEFT("/assets/setas/esquerda.png"),
         RIGHT("/assets/setas/direita.png");
 
+        private final String caminhoImagem;
 
-        private final String imagePath;
-
-
-        TipoSetas(String imagePath) {
-            this.imagePath = imagePath;
+        TipoSetas(String caminhoImagem) {
+            this.caminhoImagem = caminhoImagem;
         }
 
-
-        public String getImagePath() {
-            return imagePath;
+        public String getCaminhoImagem() {
+            return caminhoImagem;
         }
     }
 
+    private static final double OPACIDADE_INICIAL_ANIMACAO = 0.0;
+    private static final double OPACIDADE_FINAL_ANIMACAO = 1.0;
+    private static final double OPACIDADE_BRILHO_FINAL = 1.1;
+    private static final double DURACAO_FLASH_SEGUNDOS = 0.15;
+    private static final String ESTILO_BRILHO = "-fx-effect: dropshadow(gaussian, gold, 5, 0.4, 0, 0);";
 
-    private TipoSetas type;
-    private ParallelTransition riseAnimation;
-    private final Runnable missAction;
+    private TipoSetas tipo;
+    private ParallelTransition animacaoSubida;
+    private final Runnable acaoErro;
 
-
-    public Setas(TipoSetas tipo, double largura, double altura, Runnable missAction) {
-        this.type = tipo;
-        this.missAction = missAction;
+    public Setas(TipoSetas tipo, double largura, double altura, Runnable acaoErro) {
+        this.tipo = tipo;
+        this.acaoErro = acaoErro;
         setFitWidth(largura);
         setFitHeight(altura);
-        setImage(new Image(Objects.requireNonNull(getClass().getResource(tipo.getImagePath())).toExternalForm()));
-        setOpacity(0);
+        setImage(new Image(Objects.requireNonNull(getClass().getResource(tipo.getCaminhoImagem())).toExternalForm()));
+        setOpacity(OPACIDADE_INICIAL_ANIMACAO);
     }
 
-
-    public TipoSetas getType() {
-        return type;
+    public TipoSetas getTipo() {
+        return tipo;
     }
 
-
-    public void setType(TipoSetas tipo) {
-        this.type = tipo;
-        setImage(new Image(getClass().getResource(type.getImagePath()).toExternalForm()));
+    public void setTipo(TipoSetas tipo) {
+        this.tipo = tipo;
+        setImage(new Image(Objects.requireNonNull(getClass().getResource(tipo.getCaminhoImagem())).toExternalForm()));
     }
 
+    public ParallelTransition iniciarAnimacaoSubida(double duracao, double distancia) {
+        FadeTransition transicaoFade = new FadeTransition(Duration.millis(duracao), this);
+        transicaoFade.setFromValue(OPACIDADE_INICIAL_ANIMACAO);
+        transicaoFade.setToValue(OPACIDADE_FINAL_ANIMACAO);
 
-    public ParallelTransition subirSetas(double duracao, double diatancia) {
-        FadeTransition subindoSetas = new FadeTransition(Duration.millis(duracao), this);
-        subindoSetas.setFromValue(0);
-        subindoSetas.setToValue(1);
+        TranslateTransition transicaoTranslacao = new TranslateTransition(Duration.millis(duracao), this);
+        transicaoTranslacao.setByY(-distancia);
 
-
-        TranslateTransition subir = new TranslateTransition(Duration.millis(duracao), this);
-        subir.setByY(-diatancia);
-
-
-        riseAnimation = new ParallelTransition(subindoSetas, subir);
-        riseAnimation.play();
-        return riseAnimation;
+        animacaoSubida = new ParallelTransition(transicaoFade, transicaoTranslacao);
+        animacaoSubida.play();
+        return animacaoSubida;
     }
-
-
 
     public void esconder() {
         this.setVisible(false);
-        if (riseAnimation != null && riseAnimation.getStatus() == javafx.animation.Animation.Status.RUNNING) {
-            riseAnimation.stop();
+        if (animacaoSubida != null && animacaoSubida.getStatus() == javafx.animation.Animation.Status.RUNNING) {
+            animacaoSubida.stop();
         }
     }
 
-
-    public void errar(AnchorPane parentPane, List<Setas> activeArrows) {
-        if (parentPane.getChildren().contains(this)) {
-            parentPane.getChildren().remove(this);
+    public void lidarComErro(AnchorPane painelPai, List<Setas> setasAtivas) {
+        if (painelPai.getChildren().contains(this)) {
+            painelPai.getChildren().remove(this);
         }
-        if (activeArrows.contains(this)) {
-            activeArrows.remove(this);
+        if (setasAtivas.contains(this)) {
+            setasAtivas.remove(this);
         }
 
-        if (missAction != null) {
-            missAction.run();
+        if (acaoErro != null) {
+            acaoErro.run();
         }
     }
 
-
-
-    public void mostar() {
+    public void mostrar() {
         this.setVisible(true);
-        this.setOpacity(1);
+        this.setOpacity(OPACIDADE_FINAL_ANIMACAO);
     }
 
-
-    public ParallelTransition getRiseAnimation() {
-        return riseAnimation;
+    public ParallelTransition getAnimacaoSubida() {
+        return animacaoSubida;
     }
-     
+
     public void aplicarEfeitoBrilho() {
-    
-        this.setStyle("-fx-effect: dropshadow(gaussian, gold, 5, 0.4, 0, 0);");
-        
+        this.setStyle(ESTILO_BRILHO);
+
         FadeTransition flash = new FadeTransition();
         flash.setNode(this);
-        flash.setDuration(Duration.seconds(0.15));
-        flash.setFromValue(1.0);
-        flash.setToValue(1.1);
+        flash.setDuration(Duration.seconds(DURACAO_FLASH_SEGUNDOS));
+        flash.setFromValue(OPACIDADE_FINAL_ANIMACAO);
+        flash.setToValue(OPACIDADE_BRILHO_FINAL);
         flash.setCycleCount(1);
         flash.setAutoReverse(false);
         flash.play();

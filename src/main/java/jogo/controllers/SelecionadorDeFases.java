@@ -1,14 +1,11 @@
 package jogo.controllers;
 
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
-/**
- * ✨ SELECIONADOR DE FASES
- * Exemplo de como carregar diferentes fases dinamicamente
- */
+
 public class SelecionadorDeFases {
 
     private final FaseController faseController = new FaseController();
@@ -17,10 +14,10 @@ public class SelecionadorDeFases {
      * 🎵 Carrega Fase 1 - Despertar do Bardo
      */
     @FXML
-    private void carregarFase1(ActionEvent event) {
-        Stage stage = getStage(event);
-        faseController.carregarFase1(stage);
-        
+    private void carregarFase1(ActionEvent evento) {
+        Stage palco = getPalco(evento);
+        faseController.carregarFase(palco, 1);
+
         System.out.println("🎵 Iniciando Fase 1: Despertar do Bardo");
     }
 
@@ -28,10 +25,10 @@ public class SelecionadorDeFases {
      * 🔥 Carrega Fase 2 - Fúria do Lorde
      */
     @FXML
-    private void carregarFase2(ActionEvent event) {
-        Stage stage = getStage(event);
-        faseController.carregarFase2(stage);
-        
+    private void carregarFase2(ActionEvent evento) {
+        Stage palco = getPalco(evento);
+        faseController.carregarFase(palco, 2);
+
         System.out.println("🔥 Iniciando Fase 2: Fúria do Lorde");
     }
 
@@ -39,43 +36,35 @@ public class SelecionadorDeFases {
      * ⚡ Carrega Fase 3 - Batalha Épica
      */
     @FXML
-    private void carregarFase3(ActionEvent event) {
-        Stage stage = getStage(event);
-        faseController.carregarFase3(stage);
-        
+    private void carregarFase3(ActionEvent evento) {
+        Stage palco = getPalco(evento);
+        faseController.carregarFase(palco, 3);
+
         System.out.println("⚡ Iniciando Fase 3: Batalha Épica");
     }
 
-    /**
-     * 🎯 Carrega fase personalizada por número
-     */
-    public void carregarFasePersonalizada(ActionEvent event, int numeroFase) {
-        Stage stage = getStage(event);
-        faseController.carregarFase(stage, numeroFase);
-        
+
+    public void carregarFasePersonalizada(ActionEvent evento, int numeroFase) {
+        Stage palco = getPalco(evento);
+        faseController.carregarFase(palco, numeroFase);
+
         System.out.println("🎯 Iniciando Fase " + numeroFase + " (personalizada)");
     }
 
-    /**
-     * 🔄 Exemplo de progressão automática de fases
-     */
-    public void proximaFase(ActionEvent event, int faseAtual) {
-        Stage stage = getStage(event);
-        faseController.carregarProximaFase(stage, faseAtual);
+
+    public void proximaFase(ActionEvent evento, int faseAtual) {
+        Stage palco = getPalco(evento);
+        faseController.carregarProximaFase(palco, faseAtual);
     }
 
-    /**
-     * 📋 Lista fases disponíveis
-     */
+
     @FXML
-    private void listarFases(ActionEvent event) {
+    private void listarFases(ActionEvent evento) {
         faseController.listarFasesDisponiveis();
     }
 
-    /**
-     * Método utilitário para obter o Stage do evento
-     */
-    private Stage getStage(ActionEvent event) {
-        return (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+    private Stage getPalco(ActionEvent evento) {
+        return (Stage) ((Node) evento.getSource()).getScene().getWindow();
     }
 }
