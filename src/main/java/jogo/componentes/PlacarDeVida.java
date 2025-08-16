@@ -47,6 +47,9 @@ public class PlacarDeVida extends StackPane {
         atualizar(0.5, null);
     }
 
+    /**
+     * @return Rectangle representando o fundo da barra.
+     */
     private Rectangle criarFundoBarra() {
         Rectangle fundo = new Rectangle(LARGURA_TOTAL, ALTURA_TOTAL);
         fundo.setFill(Color.web(COR_FUNDO));
@@ -55,6 +58,9 @@ public class PlacarDeVida extends StackPane {
         return fundo;
     }
 
+    /**
+     * @return Rectangle representando a barra de preenchimento.
+     */
     private Rectangle criarPreenchimentoBarraInicial() {
         Rectangle preenchimento = new Rectangle(LARGURA_TOTAL / 2, ALTURA_TOTAL);
         preenchimento.setFill(Color.web(COR_MEDIA_VIDA));
@@ -64,6 +70,11 @@ public class PlacarDeVida extends StackPane {
         return preenchimento;
     }
 
+    /**
+
+     * @param caminho Caminho relativo da imagem dentro do projeto.
+     * @return ImageView do ícone.
+     */
     private ImageView criarIcone(String caminho) {
         Image img = new Image(Objects.requireNonNull(getClass().getResource(caminho)).toExternalForm());
         ImageView icone = new ImageView(img);
@@ -72,25 +83,23 @@ public class PlacarDeVida extends StackPane {
         return icone;
     }
 
+    /**
+     * @param porcentagem Valor entre 0.0 e 1.0 indicando a proporção da vida.
+     * @param lorde Instância do Lorde, pode ser null.
+     */
     public void atualizar(double porcentagem, Lorde lorde) {
         double porcentagemValidada = Math.max(0, Math.min(1, porcentagem));
         preenchimentoBarra.setWidth(LARGURA_TOTAL * porcentagemValidada);
 
         if (porcentagemValidada > 0.6) {
             preenchimentoBarra.setFill(Color.web(COR_ALTA_VIDA));
-            if (lorde != null) {
-                lorde.ficarComRaiva();
-            }
+            if (lorde != null) lorde.ficarComRaiva();
         } else if (porcentagemValidada < 0.4) {
             preenchimentoBarra.setFill(Color.web(COR_BAIXA_VIDA));
-            if (lorde != null) {
-                lorde.ficarFeliz();
-            }
+            if (lorde != null) lorde.ficarFeliz();
         } else {
             preenchimentoBarra.setFill(Color.web(COR_MEDIA_VIDA));
-            if (lorde != null) {
-                lorde.ficarPensativo();
-            }
+            if (lorde != null) lorde.ficarPensativo();
         }
     }
 }
