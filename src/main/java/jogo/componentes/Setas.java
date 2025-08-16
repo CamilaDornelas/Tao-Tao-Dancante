@@ -9,9 +9,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import java.util.List;
 import java.util.Objects;
-import java.lang.Runnable;
+
 
 public class Setas extends ImageView {
+
 
     public enum TipoSetas {
         UP("/assets/setas/cima.png"),
@@ -40,6 +41,12 @@ public class Setas extends ImageView {
     private ParallelTransition animacaoSubida;
     private final Runnable acaoErro;
 
+    /**
+     * @param tipo Tipo da seta (UP, DOWN, LEFT, RIGHT).
+     * @param largura Largura visual da seta em pixels.
+     * @param altura Altura visual da seta em pixels.
+     * @param acaoErro Runnable executado quando o jogador erra a seta.
+     */
     public Setas(TipoSetas tipo, double largura, double altura, Runnable acaoErro) {
         this.tipo = tipo;
         this.acaoErro = acaoErro;
@@ -49,15 +56,18 @@ public class Setas extends ImageView {
         setOpacity(OPACIDADE_INICIAL_ANIMACAO);
     }
 
+    /**
+     * @return TipoSetas
+     */
     public TipoSetas getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoSetas tipo) {
-        this.tipo = tipo;
-        setImage(new Image(Objects.requireNonNull(getClass().getResource(tipo.getCaminhoImagem())).toExternalForm()));
-    }
-
+    /**
+     * @param duracao Duração da animação em milissegundos.
+     * @param distancia Distância vertical que a seta deve percorrer.
+     * @return ParallelTransition contendo a animação.
+     */
     public ParallelTransition iniciarAnimacaoSubida(double duracao, double distancia) {
         FadeTransition transicaoFade = new FadeTransition(Duration.millis(duracao), this);
         transicaoFade.setFromValue(OPACIDADE_INICIAL_ANIMACAO);
@@ -78,25 +88,27 @@ public class Setas extends ImageView {
         }
     }
 
+    /**
+     * @param painelPai Painel onde a seta está exibida.
+     * @param setasAtivas Lista de setas ativas no jogo.
+     */
     public void lidarComErro(AnchorPane painelPai, List<Setas> setasAtivas) {
         if (painelPai.getChildren().contains(this)) {
             painelPai.getChildren().remove(this);
         }
-        if (setasAtivas.contains(this)) {
-            setasAtivas.remove(this);
-        }
+        setasAtivas.remove(this);
 
         if (acaoErro != null) {
             acaoErro.run();
         }
     }
 
-    public void mostrar() {
-        this.setVisible(true);
-        this.setOpacity(OPACIDADE_FINAL_ANIMACAO);
-    }
 
+    /**
+     * @return ParallelTransition da animação.
+     */
     public ParallelTransition getAnimacaoSubida() {
+
         return animacaoSubida;
     }
 
