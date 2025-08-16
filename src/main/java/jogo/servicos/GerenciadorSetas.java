@@ -30,7 +30,6 @@ public class GerenciadorSetas {
     private static final double POSICAO_Y_INICIAL_SETA = 900.0;
     private static final double DISTANCIA_SUBIDA = POSICAO_Y_INICIAL_SETA + ALTURA_SETA;
     private static final Duration DURACAO_ESCONDER_SETA_APOS_BRILHO = Duration.seconds(0.15);
-    private static final Duration DELAY_INICIAL_JOGO = Duration.seconds(3);
 
     private final AnchorPane painelPrincipal;
     private final Rectangle zonaAcerto;
@@ -110,17 +109,16 @@ public class GerenciadorSetas {
     }
 
     public void iniciar() {
-        PauseTransition delayInicial = new PauseTransition(DELAY_INICIAL_JOGO);
-        delayInicial.setOnFinished(e -> {
+        audio.setOnReady(() -> {
             audio.play();
             if (acaoAoIniciarSetas != null) {
                 acaoAoIniciarSetas.run();
             }
         });
-        delayInicial.play();
 
         audio.setOnEndOfMedia(acaoFimDeFase);
     }
+
 
     public void pararSetas() {
         if (timelineSpawn != null) {
