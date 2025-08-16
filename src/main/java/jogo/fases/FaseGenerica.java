@@ -174,10 +174,10 @@ public class FaseGenerica extends FaseBase {
         double tempoAtual = reprodutorMidia.getCurrentTime().toMillis();
         double tempoAceleracao = dadosFase.getTempoAceleracao();
 
-        if (tempoAtual >= tempoAceleracao * 1.5) {
-            timelineSpawn.setRate(2.5);
+        if (tempoAtual >= tempoAceleracao * 1.3) {
+            timelineSpawn.setRate(2.3);
         } else if (tempoAtual >= tempoAceleracao) {
-            timelineSpawn.setRate(1.9);
+            timelineSpawn.setRate(1.5);
         } else {
             timelineSpawn.setRate(1.0);
         }

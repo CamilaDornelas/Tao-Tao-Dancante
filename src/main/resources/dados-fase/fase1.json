@@ -5,9 +5,9 @@
   "pesoPontuacao": 1.0,
   "configuracoesTempo": {
     "duracaoSetasInicial": 6000.0,
-    "duracaoSetasFinal": 3000.0,
+    "duracaoSetasFinal": 4000.0,
     "tempoAceleracao": 28000.0,
-    "tempoAceleracaoMaxima": 74000.0
+    "tempoAceleracaoMaxima": 76000.0
   },
   "assets": {
     "caminhoMusica": "/assets/musica/song1.mp3",
@@ -19,7 +19,7 @@
     0, 1, 2, 3, 2, 1, 3, 2, 0, 1, 0, 3, 2, 3, 2, 1, 2, 0, 1, 3, 3, 2, 1, 0,
     2, 2, 2, 3, 0, 3, 1, 0, 2, 1, 0, 1, 3, 0, 0, 1, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
     3, 1, 2, 3, 0, 0, 2, 3, 3, 1, 2, 3, 0, 0, 0, 1, 1, 1, 2, 3, 2, 3, 0, 1, 2, 0, 1, 3, 3, 2, 2, 1, 0,
-    2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3
+    2, 3, 3, 2, 3, 1, 2, 1, 2, 3, 0, 0, 1, 3, 2, 1, 0, 0, 2, 2, 3, 3, 1, 1, 2, 2, 2, 3, 3, 3, 0, 1, 2, 3, 3, 3,2,1,0
   ],
   "estatisticas": {
     "totalSetas": 115,
