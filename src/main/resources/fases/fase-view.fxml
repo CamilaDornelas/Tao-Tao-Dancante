@@ -2,7 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
 <AnchorPane prefHeight="804.0" prefWidth="1236.0"
             xmlns="http://javafx.com/javafx"
@@ -11,7 +10,6 @@
 
     <children>
         <ImageView fitHeight="804" fitWidth="1236" pickOnBounds="true" preserveRatio="false" fx:id="background">
-            <!-- Imagem será definida dinamicamente pelo controller -->
         </ImageView>
     </children>
 
