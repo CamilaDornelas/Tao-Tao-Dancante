@@ -44,7 +44,8 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
 
 ### Execute o arquivo abaixo
 
--   --add-modules javafx.controls,javafx.fxml \
+-  java --module-path /caminho/para/javafx-sdk/lib \ 
+   --add-modules javafx.controls,javafx.fxml \
   -jar target/demo-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 ### Caso não consiga rodar o arquivo, siga os passos abaixo
