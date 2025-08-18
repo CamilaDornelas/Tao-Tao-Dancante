@@ -75,7 +75,7 @@ Se preferir rodar a aplicação sem configurar manualmente o caminho do JavaFX, 
 
 
 ## ⚙️ Estrutura do sistema
-![](https://i.imgur.com/Mu8b1Hj.png)
+![](https://i.imgur.com/I8B288K.png)
 
 ## 📸 Prints da Interface
 
