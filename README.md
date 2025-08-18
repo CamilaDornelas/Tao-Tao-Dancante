@@ -14,7 +14,7 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
 
 1. **Entenda o objetivo**  
    - Seu desafio é acertar as setas que sobem na tela no **tempo certo** com as setas que aparecem no topo.  
-   - ⚠️ Se você **errar muitas vezes**, o inimigo vai vencer e a partida acaba.   
+   - Se você errar muitas vezes, o inimigo vai vencer e a partida acaba.   
 
 3. **Controles básicos**  
    - ⬆️⬇️⬅️➡️ Use as **setas do teclado** para acompanhar as setas que sobem na tela.  
@@ -26,9 +26,6 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
      - 🟥 **Vermelha** → você está perdendo.  
    - Seus acertos fazem a barra ficar mais **verde**.  
    - Seus erros fazem a barra ficar mais **vermelha**.  
-
-5. **Dica**    
-   - 👀 Concentre-se na linha de acerto no topo da tela.  
 
 
 ## 🧪 Tecnologias utilizadas
