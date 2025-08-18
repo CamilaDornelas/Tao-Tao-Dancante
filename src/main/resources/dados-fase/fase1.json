@@ -1,4 +1,5 @@
-{"pesoPontuacao": 1.0,
+{ "numeroFase": 1,
+  "pesoPontuacao": 1.0,
   "configuracoesTempo": {
     "duracaoSetasInicial": 6000.0,
     "duracaoSetasFinal": 4000.0,
