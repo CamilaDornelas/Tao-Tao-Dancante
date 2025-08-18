@@ -4,13 +4,13 @@
 Este é um jogo rítmico inspirado no **Friday Night Funkin'**, desenvolvido em **Java**, usando a interface gráfica **JavaFX**. O projeto combina elementos musicais com uma narrativa inspirada no filme "Shrek".
 
 
-## 🧾 Descrição
+## Descrição
 
 
 No controle de **Bardo**, um ogro corajoso e determinado, o jogador inicia em uma jornada para resgatar a princesa **Ruby**, sua esposa, que foi sequestrada por pretendentes ambiciosos. Esses rivais planejam forçá-la a um casamento com o intuito de assumir o trono do reino.
 Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais, onde a vitória depende da habilidade de acompanhar o ritmo e pressionar as teclas corretas no tempo exato.
 
-## 🎮 Como Jogar
+## Como Jogar
 
 1. **Entenda o objetivo**  
    - Seu desafio é acertar as setas que sobem na tela no **tempo certo** com as setas que aparecem no topo.  
@@ -28,7 +28,7 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
    - Seus erros fazem a barra ficar mais **vermelha**.  
 
 
-## 🧪 Tecnologias utilizadas
+## Tecnologias utilizadas
 
 
 - **Java 21.0.7**
@@ -37,7 +37,7 @@ Para libertá-la, Bardo deverá enfrentar seus adversários em batalhas musicais
 - Assets personalizados desenvolvidos para o projeto com ajuda de inteligência artificial
 - Música criada pelo Suno, inspirada na narrativa do jogo
 
-## 🕹️ Como Executar
+## Como Executar
 
 ### Execute o arquivo abaixo
 
@@ -72,10 +72,10 @@ Se preferir rodar a aplicação sem configurar manualmente o caminho do JavaFX, 
 - **mvn javafx:run**
 
 
-## ⚙️ Estrutura do sistema
+## Estrutura do sistema
 ![](https://i.imgur.com/I8B288K.png)
 
-## 📸 Prints da Interface
+## Prints da Interface
 
 ### Tela de menu
 ![Tela menu](https://i.imgur.com/6AgksoJ.png)
@@ -97,13 +97,13 @@ Se preferir rodar a aplicação sem configurar manualmente o caminho do JavaFX, 
 
 
 
-## ❌Testes de Exeções
+## Testes de Exeções
 
 - Para acessar os testes das exeções feitos, entro no link abaixo:
 - https://drive.google.com/file/d/1pqn4_a9OoHUnyyzrw1ixbRqqDprfSAdh/view?usp=sharing
 
 
-## ✨ Créditos e agradecimentos
+## Créditos e agradecimentos
 
 
 Desenvolvimento: Aline Mouzinho, Bruna Fernanda e Camila Dornelas
