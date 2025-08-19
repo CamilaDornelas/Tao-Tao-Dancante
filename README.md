@@ -97,7 +97,7 @@ Se preferir rodar a aplicação sem configurar manualmente o caminho do JavaFX, 
 
 
 
-## Testes de Exeções
+## Testes de Exceções
 
 - Para acessar os testes das exeções feitos, entro no link abaixo:
 - https://drive.google.com/file/d/1pqn4_a9OoHUnyyzrw1ixbRqqDprfSAdh/view?usp=sharing
